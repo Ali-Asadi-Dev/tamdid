@@ -8,12 +8,25 @@
 
 No account, no ads, no tracking: data stays on the device. English, Persian, Arabic, Turkish and German, with right-to-left layouts, native digits, the Solar Hijri (Jalali) calendar and the Iranian toman.
 
+**iOS** (SwiftUI)
+
 <p>
-  <img src="docs/screenshots/android-en-home.png" width="200" alt="Home: monthly total, upcoming renewals, ending trials">
-  <img src="docs/screenshots/android-en-calendar.png" width="200" alt="Calendar with renewal markers">
-  <img src="docs/screenshots/android-en-insights.png" width="200" alt="Insights: last 12 months and spend by category">
-  <img src="docs/screenshots/android-fa-home.png" width="200" alt="Home in Persian, right to left, in tomans">
+  <img src="docs/screenshots/ios-en-home.png" width="200" alt="iOS home: monthly total, ending trials, next 7 days">
+  <img src="docs/screenshots/ios-en-insights.png" width="200" alt="iOS insights: last 12 months">
+  <img src="docs/screenshots/ios-fa-home.png" width="200" alt="iOS home in Persian, right to left, in tomans">
+  <img src="docs/screenshots/ios-ar-calendar.png" width="200" alt="iOS calendar in Arabic, week starting Saturday">
 </p>
+
+**Android** (Jetpack Compose)
+
+<p>
+  <img src="docs/screenshots/android-en-home.png" width="200" alt="Android home">
+  <img src="docs/screenshots/android-en-calendar.png" width="200" alt="Android calendar with renewal markers">
+  <img src="docs/screenshots/android-fa-home.png" width="200" alt="Android home in Persian">
+  <img src="docs/screenshots/android-de-home.png" width="200" alt="Android home in German">
+</p>
+
+Every screenshot is produced by the UI tests (XCUITest in CI on macOS; Robolectric on the JVM), so they always show the current build.
 
 ## Features
 

@@ -28,7 +28,9 @@ final class ScreenshotTests: XCTestCase {
         snap("en-1-home")
         let tabs = app.tabBars.buttons
         tabs.element(boundBy: 1).tap(); snap("en-2-subscriptions")
-        app.cells.firstMatch.tap(); snap("en-3-detail")
+        app.staticTexts["City Gym"].firstMatch.tap()
+        XCTAssertTrue(app.buttons["delete"].waitForExistence(timeout: 3)) // on the detail page
+        snap("en-3-detail")
         tabs.element(boundBy: 2).tap(); snap("en-4-calendar")
         tabs.element(boundBy: 3).tap(); snap("en-5-insights")
         tabs.element(boundBy: 4).tap(); snap("en-6-settings")

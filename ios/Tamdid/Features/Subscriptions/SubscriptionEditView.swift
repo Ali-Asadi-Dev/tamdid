@@ -135,8 +135,11 @@ struct SubscriptionEditView: View {
         .navigationTitle(editing == nil ? "New subscription" : "Edit subscription")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") { dismiss() }
+            // When pushed from the catalog, the back button already cancels.
+            if editing != nil {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save") { save() }.accessibilityIdentifier("save")
