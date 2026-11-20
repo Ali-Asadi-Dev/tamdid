@@ -11,6 +11,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -134,16 +136,14 @@ private fun IntroPageView(page: IntroPage) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SetupPage(settings: AppSettings, onFinish: (CurrencyCode, CalendarSystem) -> Unit) {
     val format = LocalAppFormat.current
     val context = LocalContext.current
-    var currency by remember(format.language) {
-        mutableStateOf(if (format.language == AppLanguage.Persian && settings.primaryCurrency == CurrencyCode.UsDollar) CurrencyCode.Toman else settings.primaryCurrency)
-    }
-    var calendar by remember(format.language) {
-        mutableStateOf(if (format.language == AppLanguage.Persian) CalendarSystem.Jalali else settings.calendar)
-    }
+    // Defaults follow the language picked on this page (e.g. Persian → toman and Solar Hijri).
+    var currency by remember(format.language) { mutableStateOf(AppSettings.defaults(format.language).primaryCurrency) }
+    var calendar by remember(format.language) { mutableStateOf(AppSettings.defaults(format.language).calendar) }
     fun notificationsGranted() = Build.VERSION.SDK_INT < 33 ||
         ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
     var granted by remember { mutableStateOf(notificationsGranted()) }
@@ -156,12 +156,12 @@ private fun SetupPage(settings: AppSettings, onFinish: (CurrencyCode, CalendarSy
         Text(stringResource(R.string.setup_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold)
 
         Text(stringResource(R.string.setup_language), style = MaterialTheme.typography.titleSmall)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             for (language in AppLanguage.entries) {
                 FilterChip(
                     selected = format.language == language,
                     onClick = { AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language.code)) },
-                    label = { Text(if (language == AppLanguage.Persian) "فارسی" else "English") },
+                    label = { Text(language.nativeName) },
                 )
             }
         }

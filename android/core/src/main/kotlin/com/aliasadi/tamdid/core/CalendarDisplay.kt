@@ -75,19 +75,15 @@ object DateText {
         val full = monthName(month, calendar, language)
         val short = shortMonthName(month, calendar, language)
         val gregorian = calendar == CalendarSystem.Gregorian
-        val text = when (language) {
-            AppLanguage.English -> when (style) {
-                Style.Medium -> if (gregorian) "$short $day, $year" else "$day $short $year"
-                Style.DayMonth -> if (gregorian) "$short $day" else "$day $short"
-                Style.MonthYear -> "$full $year"
-                Style.ShortMonth -> short
-            }
-            AppLanguage.Persian -> when (style) {
-                Style.Medium -> "$day $full $year"
-                Style.DayMonth -> "$day $full"
-                Style.MonthYear -> "$full $year"
-                Style.ShortMonth -> full
-            }
+        val text = when {
+            language == AppLanguage.English && style == Style.Medium -> if (gregorian) "$short $day, $year" else "$day $short $year"
+            language == AppLanguage.English && style == Style.DayMonth -> if (gregorian) "$short $day" else "$day $short"
+            language == AppLanguage.German && style == Style.Medium -> "$day. $full $year"
+            language == AppLanguage.German && style == Style.DayMonth -> "$day. $full"
+            style == Style.Medium -> "$day $full $year"
+            style == Style.DayMonth -> "$day $full"
+            style == Style.MonthYear -> "$full $year"
+            else -> short
         }
         return Digits.localize(text, language)
     }
@@ -97,50 +93,67 @@ object DateText {
             CalendarSystem.Gregorian -> when (language) {
                 AppLanguage.English -> listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
                 AppLanguage.Persian -> listOf("ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر")
+                AppLanguage.Arabic -> listOf("يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر")
+                AppLanguage.Turkish -> listOf("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık")
+                AppLanguage.German -> listOf("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
             }
             CalendarSystem.Jalali -> when (language) {
-                AppLanguage.English -> listOf("Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand")
                 AppLanguage.Persian -> listOf("فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند")
+                AppLanguage.Arabic -> listOf("فروردين", "أرديبهشت", "خرداد", "تير", "مرداد", "شهريور", "مهر", "آبان", "آذر", "دي", "بهمن", "إسفند")
+                else -> listOf("Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand")
             }
         }
         return names[month - 1]
     }
 
+    /** Three-letter month for Latin-script Gregorian months ("Nov", "Kas"); full names otherwise. */
     fun shortMonthName(month: Int, calendar: CalendarSystem, language: AppLanguage): String {
         val full = monthName(month, calendar, language)
-        return if (language == AppLanguage.English && calendar == CalendarSystem.Gregorian) full.take(3) else full
+        return if (calendar == CalendarSystem.Gregorian && !language.isRightToLeft) full.take(3) else full
     }
 
     /** Narrow weekday labels in grid order, starting from [firstWeekday] (ISO). */
     fun weekdaySymbols(firstWeekday: Int, language: AppLanguage): List<String> {
-        val symbols = if (language == AppLanguage.Persian) {
-            listOf("د", "س", "چ", "پ", "ج", "ش", "ی")
-        } else {
-            listOf("M", "T", "W", "T", "F", "S", "S")
+        val symbols = when (language) {
+            AppLanguage.English -> listOf("M", "T", "W", "T", "F", "S", "S")
+            AppLanguage.Persian -> listOf("د", "س", "چ", "پ", "ج", "ش", "ی")
+            AppLanguage.Arabic -> listOf("ن", "ث", "ر", "خ", "ج", "س", "ح")
+            AppLanguage.Turkish -> listOf("P", "S", "Ç", "P", "C", "C", "P")
+            AppLanguage.German -> listOf("M", "D", "M", "D", "F", "S", "S")
         }
         return (0 until 7).map { symbols[(firstWeekday - 1 + it) % 7] }
     }
 
-    /** The conventional first day of the week: Saturday for the Jalali calendar, Monday otherwise. */
-    fun defaultFirstWeekday(calendar: CalendarSystem): Int = if (calendar == CalendarSystem.Jalali) 6 else 1
+    /** The conventional first day of the week: Saturday for the Jalali calendar and in Arabic, Monday otherwise. */
+    fun defaultFirstWeekday(calendar: CalendarSystem, language: AppLanguage): Int =
+        if (calendar == CalendarSystem.Jalali || language == AppLanguage.Arabic) 6 else 1
 
     /** "In 3 days", "Tomorrow", "Today" — relative to [today]. */
     fun relative(date: LocalDate, today: LocalDate, language: AppLanguage): String {
         val days = ChronoUnit.DAYS.between(today, date).toInt()
+        val n = kotlin.math.abs(days)
         val text = when (language) {
             AppLanguage.English -> when {
-                days == 0 -> "Today"
-                days == 1 -> "Tomorrow"
-                days > 1 -> "In $days days"
-                days == -1 -> "Yesterday"
-                else -> "${-days} days ago"
+                days == 0 -> "Today"; days == 1 -> "Tomorrow"; days == -1 -> "Yesterday"
+                days > 1 -> "In $n days"; else -> "$n days ago"
             }
             AppLanguage.Persian -> when {
-                days == 0 -> "امروز"
-                days == 1 -> "فردا"
-                days > 1 -> "$days روز دیگر"
-                days == -1 -> "دیروز"
-                else -> "${-days} روز پیش"
+                days == 0 -> "امروز"; days == 1 -> "فردا"; days == -1 -> "دیروز"
+                days > 1 -> "$n روز دیگر"; else -> "$n روز پیش"
+            }
+            AppLanguage.Arabic -> when (days) {
+                0 -> "اليوم"; 1 -> "غدًا"; -1 -> "أمس"
+                else -> (if (days > 0) "بعد " else "قبل ") + when {
+                    n == 2 -> "يومين"; n <= 10 -> "$n أيام"; else -> "$n يومًا"
+                }
+            }
+            AppLanguage.Turkish -> when {
+                days == 0 -> "Bugün"; days == 1 -> "Yarın"; days == -1 -> "Dün"
+                days > 1 -> "$n gün sonra"; else -> "$n gün önce"
+            }
+            AppLanguage.German -> when {
+                days == 0 -> "Heute"; days == 1 -> "Morgen"; days == -1 -> "Gestern"
+                days > 1 -> "In $n Tagen"; else -> "Vor $n Tagen"
             }
         }
         return Digits.localize(text, language)

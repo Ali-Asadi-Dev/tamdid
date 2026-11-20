@@ -1,0 +1,23 @@
+name: Shared rules
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  swift-core-linux:
+    name: TamdidKit on Linux
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        run: swift test --package-path ios/Packages/TamdidKit
+
+  strings:
+    name: Translations up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/i18n.py --check

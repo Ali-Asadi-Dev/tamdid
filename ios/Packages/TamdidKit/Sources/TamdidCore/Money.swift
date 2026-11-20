@@ -1,11 +1,3 @@
-/// Languages the app ships in. Formatting rules depend on it (digits, separators, names).
-public enum AppLanguage: String, Codable, CaseIterable, Sendable {
-    case english = "en"
-    case persian = "fa"
-
-    public var isRightToLeft: Bool { self == .persian }
-}
-
 public enum CurrencyCode: String, Codable, CaseIterable, Sendable, Identifiable {
     /// Iranian toman (10 rials). Not an ISO code, but what people actually price things in.
     case toman = "IRT"
@@ -27,22 +19,35 @@ public enum CurrencyCode: String, Codable, CaseIterable, Sendable, Identifiable 
         return result
     }
 
+    /// Full name, for pickers.
     public func displayName(_ language: AppLanguage) -> String {
-        switch (self, language) {
-        case (.toman, .english): "Toman"
-        case (.usDollar, .english): "US Dollar"
-        case (.euro, .english): "Euro"
-        case (.pound, .english): "British Pound"
-        case (.dirham, .english): "UAE Dirham"
-        case (.lira, .english): "Turkish Lira"
-        case (.canadianDollar, .english): "Canadian Dollar"
-        case (.toman, .persian): "تومان"
-        case (.usDollar, .persian): "دلار"
-        case (.euro, .persian): "یورو"
-        case (.pound, .persian): "پوند"
-        case (.dirham, .persian): "درهم"
-        case (.lira, .persian): "لیر"
-        case (.canadianDollar, .persian): "دلار کانادا"
+        let names: [String] = switch language {
+        case .english: ["Toman", "US Dollar", "Euro", "British Pound", "UAE Dirham", "Turkish Lira", "Canadian Dollar"]
+        case .persian: ["تومان", "دلار", "یورو", "پوند", "درهم", "لیر", "دلار کانادا"]
+        case .arabic: ["تومان", "دولار أمريكي", "يورو", "جنيه إسترليني", "درهم إماراتي", "ليرة تركية", "دولار كندي"]
+        case .turkish: ["Toman", "ABD Doları", "Euro", "İngiliz Sterlini", "BAE Dirhemi", "Türk Lirası", "Kanada Doları"]
+        case .german: ["Toman", "US-Dollar", "Euro", "Britisches Pfund", "VAE-Dirham", "Türkische Lira", "Kanadischer Dollar"]
+        }
+        return names[Self.allCases.firstIndex(of: self)!]
+    }
+
+    /// The word written after an amount in Persian and Arabic ("۱۲۰٬۰۰۰ تومان").
+    func amountWord(_ language: AppLanguage) -> String {
+        guard language == .arabic else { return displayName(language) }
+        let names = ["تومان", "دولار", "يورو", "جنيه", "درهم", "ليرة", "دولار كندي"]
+        return names[Self.allCases.firstIndex(of: self)!]
+    }
+
+    /// Symbol used by languages that write it next to the number.
+    var symbol: String {
+        switch self {
+        case .toman: "Toman"
+        case .usDollar: "$"
+        case .euro: "€"
+        case .pound: "£"
+        case .dirham: "AED"
+        case .lira: "₺"
+        case .canadianDollar: "CA$"
         }
     }
 }
@@ -69,20 +74,18 @@ public struct Money: Hashable, Codable, Sendable {
 public enum MoneyFormatter {
     public static func format(_ money: Money, language: AppLanguage) -> String {
         let number = formatNumber(money.amountMinor, fractionDigits: money.currency.fractionDigits, language: language)
-        let negative = money.amountMinor < 0
-        let sign = negative ? "-" : ""
+        let sign = money.amountMinor < 0 ? "-" : ""
+        let currency = money.currency
         switch language {
-        case .persian:
-            return "\(sign)\(number) \(money.currency.displayName(.persian))"
-        case .english:
-            switch money.currency {
-            case .usDollar: return "\(sign)$\(number)"
-            case .euro: return "\(sign)€\(number)"
-            case .pound: return "\(sign)£\(number)"
-            case .lira: return "\(sign)₺\(number)"
-            case .canadianDollar: return "\(sign)CA$\(number)"
-            case .dirham: return "\(sign)AED \(number)"
+        case .persian, .arabic:
+            return "\(sign)\(number) \(currency.amountWord(language))"
+        case .german:
+            return "\(sign)\(number)\u{00A0}\(currency.symbol)"
+        case .english, .turkish:
+            switch currency {
             case .toman: return "\(sign)\(number) Toman"
+            case .dirham: return "\(sign)AED \(number)"
+            default: return "\(sign)\(currency.symbol)\(number)"
             }
         }
     }
@@ -95,8 +98,8 @@ public enum MoneyFormatter {
         let whole = magnitude / divisor
         let fraction = magnitude % divisor
 
-        let groupSeparator = language == .persian ? "\u{066C}" : ","
-        let decimalSeparator = language == .persian ? "\u{066B}" : "."
+        let groupSeparator = language.groupingSeparator
+        let decimalSeparator = language.decimalSeparator
 
         let digits = Array(String(whole))
         var grouped = ""
@@ -146,28 +149,5 @@ public enum MoneyFormatter {
         guard currency.fractionDigits > 0 else { return String(whole) }
         let fraction = String(abs(amountMinor % divisor))
         return "\(whole).\(String(repeating: "0", count: currency.fractionDigits - fraction.count))\(fraction)"
-    }
-}
-
-public enum Digits {
-    private static let persian: [Character] = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
-    private static let arabic: [Character] = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"]
-
-    /// Replaces Latin digits with Persian ones when `language` is Persian.
-    public static func localize(_ text: String, language: AppLanguage) -> String {
-        guard language == .persian else { return text }
-        return String(text.map { character in
-            if let value = character.wholeNumberValue, character.isASCII { return persian[value] }
-            return character
-        })
-    }
-
-    /// Replaces Persian and Arabic-Indic digits with Latin ones.
-    public static func latinize(_ text: String) -> String {
-        String(text.map { character in
-            if let index = persian.firstIndex(of: character) { return Character(String(index)) }
-            if let index = arabic.firstIndex(of: character) { return Character(String(index)) }
-            return character
-        })
     }
 }

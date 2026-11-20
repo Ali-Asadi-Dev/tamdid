@@ -4,14 +4,34 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /** Languages the app ships in. Formatting rules depend on it (digits, separators, names). */
-enum class AppLanguage(val code: String) {
-    English("en"),
-    Persian("fa");
+enum class AppLanguage(val code: String, val nativeName: String) {
+    English("en", "English"),
+    Persian("fa", "فارسی"),
+    Arabic("ar", "العربية"),
+    Turkish("tr", "Türkçe"),
+    German("de", "Deutsch");
 
-    val isRightToLeft: Boolean get() = this == Persian
+    val isRightToLeft: Boolean get() = this == Persian || this == Arabic
+
+    internal val groupingSeparator: String
+        get() = when (this) {
+            English -> ","
+            Persian, Arabic -> "\u066C"
+            Turkish, German -> "."
+        }
+
+    internal val decimalSeparator: String
+        get() = when (this) {
+            English -> "."
+            Persian, Arabic -> "\u066B"
+            Turkish, German -> ","
+        }
 
     companion object {
         fun fromCode(code: String): AppLanguage? = entries.firstOrNull { it.code == code }
+
+        /** Maps a BCP-47 code such as "fa-IR"; unknown languages fall back to English. */
+        fun forLocale(code: String?): AppLanguage = fromCode(code?.take(2)?.lowercase() ?: "en") ?: English
     }
 }
 
@@ -30,26 +50,31 @@ enum class CurrencyCode(val code: String) {
 
     val minorUnitsPerMajor: Long get() = if (fractionDigits == 0) 1 else 100
 
+    /** Full name, for pickers. */
     fun displayName(language: AppLanguage): String = when (language) {
-        AppLanguage.English -> when (this) {
+        AppLanguage.English -> listOf("Toman", "US Dollar", "Euro", "British Pound", "UAE Dirham", "Turkish Lira", "Canadian Dollar")
+        AppLanguage.Persian -> listOf("تومان", "دلار", "یورو", "پوند", "درهم", "لیر", "دلار کانادا")
+        AppLanguage.Arabic -> listOf("تومان", "دولار أمريكي", "يورو", "جنيه إسترليني", "درهم إماراتي", "ليرة تركية", "دولار كندي")
+        AppLanguage.Turkish -> listOf("Toman", "ABD Doları", "Euro", "İngiliz Sterlini", "BAE Dirhemi", "Türk Lirası", "Kanada Doları")
+        AppLanguage.German -> listOf("Toman", "US-Dollar", "Euro", "Britisches Pfund", "VAE-Dirham", "Türkische Lira", "Kanadischer Dollar")
+    }[ordinal]
+
+    /** The word written after an amount in Persian and Arabic ("۱۲۰٬۰۰۰ تومان"). */
+    internal fun amountWord(language: AppLanguage): String =
+        if (language == AppLanguage.Arabic) listOf("تومان", "دولار", "يورو", "جنيه", "درهم", "ليرة", "دولار كندي")[ordinal]
+        else displayName(language)
+
+    /** Symbol used by languages that write it next to the number. */
+    internal val symbol: String
+        get() = when (this) {
             Toman -> "Toman"
-            UsDollar -> "US Dollar"
-            Euro -> "Euro"
-            Pound -> "British Pound"
-            Dirham -> "UAE Dirham"
-            Lira -> "Turkish Lira"
-            CanadianDollar -> "Canadian Dollar"
+            UsDollar -> "$"
+            Euro -> "€"
+            Pound -> "£"
+            Dirham -> "AED"
+            Lira -> "₺"
+            CanadianDollar -> "CA$"
         }
-        AppLanguage.Persian -> when (this) {
-            Toman -> "تومان"
-            UsDollar -> "دلار"
-            Euro -> "یورو"
-            Pound -> "پوند"
-            Dirham -> "درهم"
-            Lira -> "لیر"
-            CanadianDollar -> "دلار کانادا"
-        }
-    }
 
     companion object {
         fun fromCode(code: String): CurrencyCode? = entries.firstOrNull { it.code == code }
@@ -74,16 +99,14 @@ object MoneyFormatter {
     fun format(money: Money, language: AppLanguage): String {
         val number = formatNumber(money.amountMinor, money.currency.fractionDigits, language)
         val sign = if (money.amountMinor < 0) "-" else ""
+        val currency = money.currency
         return when (language) {
-            AppLanguage.Persian -> "$sign$number ${money.currency.displayName(AppLanguage.Persian)}"
-            AppLanguage.English -> when (money.currency) {
-                CurrencyCode.UsDollar -> "$sign$$number"
-                CurrencyCode.Euro -> "$sign€$number"
-                CurrencyCode.Pound -> "$sign£$number"
-                CurrencyCode.Lira -> "$sign₺$number"
-                CurrencyCode.CanadianDollar -> "${sign}CA$$number"
-                CurrencyCode.Dirham -> "${sign}AED $number"
+            AppLanguage.Persian, AppLanguage.Arabic -> "$sign$number ${currency.amountWord(language)}"
+            AppLanguage.German -> "$sign$number\u00A0${currency.symbol}"
+            AppLanguage.English, AppLanguage.Turkish -> when (currency) {
                 CurrencyCode.Toman -> "$sign$number Toman"
+                CurrencyCode.Dirham -> "${sign}AED $number"
+                else -> "$sign${currency.symbol}$number"
             }
         }
     }
@@ -95,8 +118,8 @@ object MoneyFormatter {
         repeat(fractionDigits) { divisor *= 10 }
         val whole = (magnitude / divisor).toString()
         val fraction = magnitude % divisor
-        val groupSeparator = if (language == AppLanguage.Persian) "٬" else ","
-        val decimalSeparator = if (language == AppLanguage.Persian) "٫" else "."
+        val groupSeparator = language.groupingSeparator
+        val decimalSeparator = language.decimalSeparator
         val grouped = StringBuilder()
         whole.forEachIndexed { index, c ->
             if (index > 0 && (whole.length - index) % 3 == 0) grouped.append(groupSeparator)
@@ -153,11 +176,15 @@ object Digits {
     private const val PERSIAN = "۰۱۲۳۴۵۶۷۸۹"
     private const val ARABIC = "٠١٢٣٤٥٦٧٨٩"
 
-    /** Replaces Latin digits with Persian ones when [language] is Persian. */
+    /** Replaces Latin digits with the language's own digits (Persian or Arabic-Indic). */
     fun localize(text: String, language: AppLanguage): String {
-        if (language != AppLanguage.Persian) return text
+        val table = when (language) {
+            AppLanguage.Persian -> PERSIAN
+            AppLanguage.Arabic -> ARABIC
+            else -> return text
+        }
         return buildString(text.length) {
-            for (c in text) append(if (c in '0'..'9') PERSIAN[c - '0'] else c)
+            for (c in text) append(if (c in '0'..'9') table[c - '0'] else c)
         }
     }
 

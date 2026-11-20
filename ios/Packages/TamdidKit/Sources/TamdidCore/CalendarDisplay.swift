@@ -91,12 +91,12 @@ public enum DateText {
         case (.english, .medium): "\(day) \(short) \(year)"
         case (.english, .dayMonth) where calendar == .gregorian: "\(short) \(day)"
         case (.english, .dayMonth): "\(day) \(short)"
-        case (.english, .monthYear): "\(full) \(year)"
-        case (.english, .shortMonth): short
-        case (.persian, .medium): "\(day) \(full) \(year)"
-        case (.persian, .dayMonth): "\(day) \(full)"
-        case (.persian, .monthYear): "\(full) \(year)"
-        case (.persian, .shortMonth): full
+        case (.german, .medium): "\(day). \(full) \(year)"
+        case (.german, .dayMonth): "\(day). \(full)"
+        case (_, .medium): "\(day) \(full) \(year)"
+        case (_, .dayMonth): "\(day) \(full)"
+        case (_, .monthYear): "\(full) \(year)"
+        case (_, .shortMonth): short
         }
         return Digits.localize(text, language: language)
     }
@@ -107,48 +107,63 @@ public enum DateText {
             ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         case (.gregorian, .persian):
             ["ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر"]
-        case (.jalali, .english):
-            ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"]
+        case (.gregorian, .arabic):
+            ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+        case (.gregorian, .turkish):
+            ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+        case (.gregorian, .german):
+            ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
         case (.jalali, .persian):
             ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
+        case (.jalali, .arabic):
+            ["فروردين", "أرديبهشت", "خرداد", "تير", "مرداد", "شهريور", "مهر", "آبان", "آذر", "دي", "بهمن", "إسفند"]
+        case (.jalali, _):
+            ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"]
         }
         return names[month - 1]
     }
 
+    /// Three-letter month for Latin-script Gregorian months ("Nov", "Kas"); full names otherwise.
     public static func shortMonthName(_ month: Int, calendar: CalendarSystem, language: AppLanguage) -> String {
-        guard language == .english else { return monthName(month, calendar: calendar, language: language) }
         let full = monthName(month, calendar: calendar, language: language)
-        return calendar == .gregorian ? String(full.prefix(3)) : full
+        guard calendar == .gregorian, !language.isRightToLeft else { return full }
+        return String(full.prefix(3))
     }
 
     /// Narrow weekday labels in grid order, starting from `firstWeekday` (ISO).
     public static func weekdaySymbols(firstWeekday: Int, language: AppLanguage) -> [String] {
         // ISO order: Monday … Sunday.
-        let symbols = language == .persian
-            ? ["د", "س", "چ", "پ", "ج", "ش", "ی"]
-            : ["M", "T", "W", "T", "F", "S", "S"]
+        let symbols: [String] = switch language {
+        case .english: ["M", "T", "W", "T", "F", "S", "S"]
+        case .persian: ["د", "س", "چ", "پ", "ج", "ش", "ی"]
+        case .arabic: ["ن", "ث", "ر", "خ", "ج", "س", "ح"]
+        case .turkish: ["P", "S", "Ç", "P", "C", "C", "P"]
+        case .german: ["M", "D", "M", "D", "F", "S", "S"]
+        }
         return (0..<7).map { symbols[(firstWeekday - 1 + $0) % 7] }
     }
 
-    /// The conventional first day of the week: Saturday for the Jalali calendar, Monday otherwise.
-    public static func defaultFirstWeekday(for calendar: CalendarSystem) -> Int {
-        calendar == .jalali ? 6 : 1
+    /// The conventional first day of the week: Saturday for the Jalali calendar and in Arabic, Monday otherwise.
+    public static func defaultFirstWeekday(for calendar: CalendarSystem, language: AppLanguage) -> Int {
+        calendar == .jalali || language == .arabic ? 6 : 1
     }
 
-    /// "in 3 days", "tomorrow", "today" — relative to `today`.
+    /// "In 3 days", "Tomorrow", "Today" — relative to `today`.
     public static func relative(_ date: CivilDate, today: CivilDate, language: AppLanguage) -> String {
         let days = today.days(until: date)
-        let text: String = switch (language, days) {
-        case (.english, 0): "Today"
-        case (.english, 1): "Tomorrow"
-        case (.english, let d) where d > 1: "In \(d) days"
-        case (.english, -1): "Yesterday"
-        case (.english, let d): "\(-d) days ago"
-        case (.persian, 0): "امروز"
-        case (.persian, 1): "فردا"
-        case (.persian, let d) where d > 1: "\(d) روز دیگر"
-        case (.persian, -1): "دیروز"
-        case (.persian, let d): "\(-d) روز پیش"
+        let n = abs(days)
+        let text: String = switch language {
+        case .english:
+            days == 0 ? "Today" : days == 1 ? "Tomorrow" : days == -1 ? "Yesterday" : days > 1 ? "In \(n) days" : "\(n) days ago"
+        case .persian:
+            days == 0 ? "امروز" : days == 1 ? "فردا" : days == -1 ? "دیروز" : days > 1 ? "\(n) روز دیگر" : "\(n) روز پیش"
+        case .arabic:
+            days == 0 ? "اليوم" : days == 1 ? "غدًا" : days == -1 ? "أمس"
+                : "\(days > 0 ? "بعد" : "قبل") \(n == 2 ? "يومين" : n <= 10 ? "\(n) أيام" : "\(n) يومًا")"
+        case .turkish:
+            days == 0 ? "Bugün" : days == 1 ? "Yarın" : days == -1 ? "Dün" : days > 1 ? "\(n) gün sonra" : "\(n) gün önce"
+        case .german:
+            days == 0 ? "Heute" : days == 1 ? "Morgen" : days == -1 ? "Gestern" : days > 1 ? "In \(n) Tagen" : "Vor \(n) Tagen"
         }
         return Digits.localize(text, language: language)
     }

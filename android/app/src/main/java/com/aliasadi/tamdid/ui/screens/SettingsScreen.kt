@@ -90,7 +90,7 @@ fun SettingsScreen(viewModel: SettingsViewModel, contentPadding: PaddingValues) 
                     label = stringResource(R.string.setup_language),
                     selected = format.language,
                     options = AppLanguage.entries,
-                    optionLabel = { if (it == AppLanguage.Persian) "فارسی" else "English" },
+                    optionLabel = { it.nativeName },
                     onSelect = { AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(it.code)) },
                     modifier = Modifier.fillMaxWidth(),
                 )

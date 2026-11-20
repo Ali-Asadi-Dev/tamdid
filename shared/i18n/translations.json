@@ -1,0 +1,1144 @@
+{
+  "_about": "UI text for both apps. Keys are the English source; Android placeholders (%1$s, %1$d). Run tools/i18n.py after editing.",
+  "strings": {
+    "Tamdid": {
+      "fa": "تمدید",
+      "ar": "تمديد",
+      "tr": "Tamdid",
+      "de": "Tamdid"
+    },
+    "Home": {
+      "fa": "خانه",
+      "ar": "الرئيسية",
+      "tr": "Ana sayfa",
+      "de": "Start"
+    },
+    "Subscriptions": {
+      "fa": "اشتراک‌ها",
+      "ar": "الاشتراكات",
+      "tr": "Abonelikler",
+      "de": "Abos"
+    },
+    "Calendar": {
+      "fa": "تقویم",
+      "ar": "التقويم",
+      "tr": "Takvim",
+      "de": "Kalender"
+    },
+    "Insights": {
+      "fa": "آمار",
+      "ar": "إحصاءات",
+      "tr": "Analiz",
+      "de": "Statistik"
+    },
+    "Settings": {
+      "fa": "تنظیمات",
+      "ar": "الإعدادات",
+      "tr": "Ayarlar",
+      "de": "Einstellungen"
+    },
+    "Add subscription": {
+      "fa": "افزودن اشتراک",
+      "ar": "إضافة اشتراك",
+      "tr": "Abonelik ekle",
+      "de": "Abo hinzufügen"
+    },
+    "Save": {
+      "fa": "ذخیره",
+      "ar": "حفظ",
+      "tr": "Kaydet",
+      "de": "Sichern"
+    },
+    "Cancel": {
+      "fa": "انصراف",
+      "ar": "إلغاء",
+      "tr": "Vazgeç",
+      "de": "Abbrechen"
+    },
+    "Delete": {
+      "fa": "حذف",
+      "ar": "حذف",
+      "tr": "Sil",
+      "de": "Löschen"
+    },
+    "Edit": {
+      "fa": "ویرایش",
+      "ar": "تعديل",
+      "tr": "Düzenle",
+      "de": "Bearbeiten"
+    },
+    "Back": {
+      "fa": "بازگشت",
+      "ar": "رجوع",
+      "tr": "Geri",
+      "de": "Zurück"
+    },
+    "Next": {
+      "fa": "بعدی",
+      "ar": "التالي",
+      "tr": "İleri",
+      "de": "Weiter"
+    },
+    "Skip": {
+      "fa": "رد شدن",
+      "ar": "تخطٍّ",
+      "tr": "Atla",
+      "de": "Überspringen"
+    },
+    "Done": {
+      "fa": "تمام",
+      "ar": "تم",
+      "tr": "Tamam",
+      "de": "Fertig"
+    },
+    "Get started": {
+      "fa": "شروع کنیم",
+      "ar": "لنبدأ",
+      "tr": "Başlayalım",
+      "de": "Los geht’s"
+    },
+    "Pause": {
+      "fa": "توقف موقت",
+      "ar": "إيقاف مؤقت",
+      "tr": "Duraklat",
+      "de": "Pausieren"
+    },
+    "Resume": {
+      "fa": "ادامه",
+      "ar": "استئناف",
+      "tr": "Devam ettir",
+      "de": "Fortsetzen"
+    },
+    "Mark as cancelled": {
+      "fa": "علامت‌گذاری به‌عنوان لغوشده",
+      "ar": "وضع علامة كملغى",
+      "tr": "İptal edildi olarak işaretle",
+      "de": "Als gekündigt markieren"
+    },
+    "Manage subscription": {
+      "fa": "مدیریت اشتراک",
+      "ar": "إدارة الاشتراك",
+      "tr": "Aboneliği yönet",
+      "de": "Abo verwalten"
+    },
+    "Previous month": {
+      "fa": "ماه قبل",
+      "ar": "الشهر السابق",
+      "tr": "Önceki ay",
+      "de": "Vorheriger Monat"
+    },
+    "Next month": {
+      "fa": "ماه بعد",
+      "ar": "الشهر التالي",
+      "tr": "Sonraki ay",
+      "de": "Nächster Monat"
+    },
+    "Every subscription in one place": {
+      "fa": "همه‌ی اشتراک‌ها یک‌جا",
+      "ar": "كل اشتراكاتك في مكان واحد",
+      "tr": "Tüm abonelikler tek yerde",
+      "de": "Alle Abos an einem Ort"
+    },
+    "Netflix, your phone plan, the gym. Add what you pay for and see it all together.": {
+      "fa": "از نتفلیکس و بسته‌ی موبایل تا باشگاه. هر چیزی که برایش پول می‌دهی را اضافه کن و همه را کنار هم ببین.",
+      "ar": "نتفليكس، باقة هاتفك، النادي الرياضي. أضف ما تدفع مقابله وشاهده كله معًا.",
+      "tr": "Netflix, telefon tarifen, spor salonu. Ödediğin her şeyi ekle, hepsini bir arada gör.",
+      "de": "Netflix, Handyvertrag, Fitnessstudio. Füge hinzu, wofür du zahlst, und sieh alles auf einen Blick."
+    },
+    "Never get charged by surprise": {
+      "fa": "دیگر غافلگیر نمی‌شوی",
+      "ar": "لا مزيد من الخصومات المفاجئة",
+      "tr": "Sürpriz ödemelere son",
+      "de": "Nie wieder überraschende Abbuchungen"
+    },
+    "Get a reminder before each renewal, and before every free trial turns into a payment.": {
+      "fa": "قبل از هر تمدید، و قبل از اینکه دوره‌ی رایگان به پرداخت تبدیل شود، یادآوری می‌گیری.",
+      "ar": "احصل على تذكير قبل كل تجديد، وقبل أن تتحول أي فترة تجربة مجانية إلى دفعة.",
+      "tr": "Her yenilemeden önce ve her ücretsiz deneme ödemeye dönüşmeden önce hatırlatma al.",
+      "de": "Erhalte eine Erinnerung vor jeder Verlängerung – und bevor ein kostenloser Test kostenpflichtig wird."
+    },
+    "Know your real monthly cost": {
+      "fa": "هزینه‌ی واقعی ماهانه‌ات را بدان",
+      "ar": "اعرف تكلفتك الشهرية الحقيقية",
+      "tr": "Gerçek aylık maliyetini bil",
+      "de": "Kenne deine echten Monatskosten"
+    },
+    "Weekly, monthly and yearly plans, in any currency, added up into one number.": {
+      "fa": "اشتراک‌های هفتگی، ماهانه و سالانه، با هر ارزی، در یک عدد جمع می‌شوند.",
+      "ar": "خطط أسبوعية وشهرية وسنوية، بأي عملة، مجموعة في رقم واحد.",
+      "tr": "Haftalık, aylık ve yıllık planlar, her para biriminde, tek bir rakamda toplanır.",
+      "de": "Wöchentliche, monatliche und jährliche Abos in jeder Währung – zusammengerechnet in einer Zahl."
+    },
+    "Make it yours": {
+      "fa": "تنظیمات اولیه",
+      "ar": "اجعله على ذوقك",
+      "tr": "Sana göre ayarla",
+      "de": "Mach es zu deinem"
+    },
+    "Language": {
+      "fa": "زبان",
+      "ar": "اللغة",
+      "tr": "Dil",
+      "de": "Sprache"
+    },
+    "Main currency": {
+      "fa": "ارز اصلی",
+      "ar": "العملة الرئيسية",
+      "tr": "Ana para birimi",
+      "de": "Hauptwährung"
+    },
+    "Reminders": {
+      "fa": "یادآورها",
+      "ar": "التذكيرات",
+      "tr": "Hatırlatmalar",
+      "de": "Erinnerungen"
+    },
+    "Allow notifications": {
+      "fa": "اجازه‌ی اعلان",
+      "ar": "السماح بالإشعارات",
+      "tr": "Bildirimlere izin ver",
+      "de": "Mitteilungen erlauben"
+    },
+    "Notifications are on": {
+      "fa": "اعلان‌ها فعال است",
+      "ar": "الإشعارات مفعّلة",
+      "tr": "Bildirimler açık",
+      "de": "Mitteilungen sind an"
+    },
+    "Your data stays on this phone. No account, no ads, no tracking.": {
+      "fa": "اطلاعاتت فقط روی همین گوشی می‌ماند. بدون حساب کاربری، بدون تبلیغ، بدون ردیابی.",
+      "ar": "تبقى بياناتك على هذا الهاتف. بلا حساب، بلا إعلانات، بلا تتبّع.",
+      "tr": "Verilerin bu telefonda kalır. Hesap yok, reklam yok, takip yok.",
+      "de": "Deine Daten bleiben auf diesem Handy. Kein Konto, keine Werbung, kein Tracking."
+    },
+    "Gregorian": {
+      "fa": "میلادی",
+      "ar": "ميلادي",
+      "tr": "Miladi",
+      "de": "Gregorianisch"
+    },
+    "Solar Hijri": {
+      "fa": "شمسی",
+      "ar": "هجري شمسي",
+      "tr": "Hicri şemsi",
+      "de": "Persisch (Sonnenkalender)"
+    },
+    "Per month": {
+      "fa": "در ماه",
+      "ar": "شهريًا",
+      "tr": "Aylık",
+      "de": "Pro Monat"
+    },
+    "%1$s a year": {
+      "fa": "سالانه %1$s",
+      "ar": "%1$s سنويًا",
+      "tr": "Yılda %1$s",
+      "de": "%1$s pro Jahr"
+    },
+    "%1$s a day": {
+      "fa": "روزانه %1$s",
+      "ar": "%1$s يوميًا",
+      "tr": "Günde %1$s",
+      "de": "%1$s pro Tag"
+    },
+    "Not included (no exchange rate): %1$s": {
+      "fa": "بدون نرخ تبدیل، در جمع نیامده: %1$s",
+      "ar": "غير محتسب (لا يوجد سعر صرف): %1$s",
+      "tr": "Dahil değil (kur yok): %1$s",
+      "de": "Nicht enthalten (kein Wechselkurs): %1$s"
+    },
+    "Next 7 days": {
+      "fa": "۷ روز آینده",
+      "ar": "الأيام السبعة القادمة",
+      "tr": "Önümüzdeki 7 gün",
+      "de": "Nächste 7 Tage"
+    },
+    "Nothing renews in the next 7 days.": {
+      "fa": "در ۷ روز آینده تمدیدی نداری.",
+      "ar": "لا تجديدات في الأيام السبعة القادمة.",
+      "tr": "Önümüzdeki 7 günde yenilenen bir şey yok.",
+      "de": "In den nächsten 7 Tagen verlängert sich nichts."
+    },
+    "Free trials ending": {
+      "fa": "دوره‌های رایگانِ رو به پایان",
+      "ar": "فترات تجربة على وشك الانتهاء",
+      "tr": "Biten ücretsiz denemeler",
+      "de": "Endende Testphasen"
+    },
+    "By category": {
+      "fa": "بر اساس دسته",
+      "ar": "حسب الفئة",
+      "tr": "Kategoriye göre",
+      "de": "Nach Kategorie"
+    },
+    "No subscriptions yet": {
+      "fa": "هنوز اشتراکی نداری",
+      "ar": "لا توجد اشتراكات بعد",
+      "tr": "Henüz abonelik yok",
+      "de": "Noch keine Abos"
+    },
+    "Add the services you pay for to see your monthly total and get reminders.": {
+      "fa": "سرویس‌هایی که برایشان پول می‌دهی را اضافه کن تا جمع ماهانه را ببینی و یادآوری بگیری.",
+      "ar": "أضف الخدمات التي تدفع مقابلها لترى إجماليك الشهري وتحصل على تذكيرات.",
+      "tr": "Aylık toplamını görmek ve hatırlatma almak için ödediğin hizmetleri ekle.",
+      "de": "Füge die Dienste hinzu, für die du zahlst, um deine Monatssumme zu sehen und Erinnerungen zu bekommen."
+    },
+    "Search": {
+      "fa": "جستجو",
+      "ar": "بحث",
+      "tr": "Ara",
+      "de": "Suchen"
+    },
+    "All": {
+      "fa": "همه",
+      "ar": "الكل",
+      "tr": "Tümü",
+      "de": "Alle"
+    },
+    "Active": {
+      "fa": "فعال",
+      "ar": "نشط",
+      "tr": "Aktif",
+      "de": "Aktiv"
+    },
+    "Paused": {
+      "fa": "متوقف",
+      "ar": "متوقف مؤقتًا",
+      "tr": "Duraklatıldı",
+      "de": "Pausiert"
+    },
+    "Cancelled": {
+      "fa": "لغوشده",
+      "ar": "ملغى",
+      "tr": "İptal edildi",
+      "de": "Gekündigt"
+    },
+    "Free trial": {
+      "fa": "دوره‌ی رایگان",
+      "ar": "تجربة مجانية",
+      "tr": "Ücretsiz deneme",
+      "de": "Testphase"
+    },
+    "Sort": {
+      "fa": "مرتب‌سازی",
+      "ar": "ترتيب",
+      "tr": "Sırala",
+      "de": "Sortieren"
+    },
+    "Next renewal": {
+      "fa": "تمدید بعدی",
+      "ar": "التجديد التالي",
+      "tr": "Sonraki yenileme",
+      "de": "Nächste Verlängerung"
+    },
+    "Monthly cost": {
+      "fa": "هزینه‌ی ماهانه",
+      "ar": "التكلفة الشهرية",
+      "tr": "Aylık maliyet",
+      "de": "Monatliche Kosten"
+    },
+    "Name": {
+      "fa": "نام",
+      "ar": "الاسم",
+      "tr": "Ad",
+      "de": "Name"
+    },
+    "No matches.": {
+      "fa": "موردی پیدا نشد.",
+      "ar": "لا نتائج.",
+      "tr": "Sonuç yok.",
+      "de": "Keine Treffer."
+    },
+    "No upcoming renewal": {
+      "fa": "تمدید بعدی ندارد",
+      "ar": "لا يوجد تجديد قادم",
+      "tr": "Yaklaşan yenileme yok",
+      "de": "Keine anstehende Verlängerung"
+    },
+    "%1$s per month": {
+      "fa": "معادل %1$s در ماه",
+      "ar": "%1$s شهريًا",
+      "tr": "Ayda %1$s",
+      "de": "%1$s pro Monat"
+    },
+    "Spent so far": {
+      "fa": "تا امروز پرداخت شده",
+      "ar": "المدفوع حتى الآن",
+      "tr": "Şimdiye kadar ödenen",
+      "de": "Bisher ausgegeben"
+    },
+    "Payments": {
+      "fa": "تعداد پرداخت",
+      "ar": "عدد الدفعات",
+      "tr": "Ödeme sayısı",
+      "de": "Zahlungen"
+    },
+    "Started": {
+      "fa": "شروع",
+      "ar": "البداية",
+      "tr": "Başlangıç",
+      "de": "Beginn"
+    },
+    "Trial ends": {
+      "fa": "پایان دوره‌ی رایگان",
+      "ar": "نهاية التجربة",
+      "tr": "Deneme bitişi",
+      "de": "Testphase endet"
+    },
+    "Ended": {
+      "fa": "پایان",
+      "ar": "الانتهاء",
+      "tr": "Bitiş",
+      "de": "Beendet"
+    },
+    "Price history": {
+      "fa": "تاریخچه‌ی قیمت",
+      "ar": "سجل الأسعار",
+      "tr": "Fiyat geçmişi",
+      "de": "Preisverlauf"
+    },
+    "since %1$s": {
+      "fa": "از %1$s",
+      "ar": "منذ %1$s",
+      "tr": "%1$s tarihinden beri",
+      "de": "seit %1$s"
+    },
+    "Payment method": {
+      "fa": "روش پرداخت",
+      "ar": "طريقة الدفع",
+      "tr": "Ödeme yöntemi",
+      "de": "Zahlungsmethode"
+    },
+    "Notes": {
+      "fa": "یادداشت",
+      "ar": "ملاحظات",
+      "tr": "Notlar",
+      "de": "Notizen"
+    },
+    "Reminder": {
+      "fa": "یادآور",
+      "ar": "التذكير",
+      "tr": "Hatırlatma",
+      "de": "Erinnerung"
+    },
+    "Delete %1$s?": {
+      "fa": "%1$s حذف شود؟",
+      "ar": "حذف %1$s؟",
+      "tr": "%1$s silinsin mi?",
+      "de": "%1$s löschen?"
+    },
+    "Its payment history will be removed too. This can't be undone.": {
+      "fa": "تاریخچه‌ی پرداختش هم پاک می‌شود. این کار برگشت‌پذیر نیست.",
+      "ar": "سيُحذف سجل مدفوعاته أيضًا. لا يمكن التراجع عن ذلك.",
+      "tr": "Ödeme geçmişi de silinecek. Bu işlem geri alınamaz.",
+      "de": "Der Zahlungsverlauf wird ebenfalls gelöscht. Das lässt sich nicht rückgängig machen."
+    },
+    "New subscription": {
+      "fa": "اشتراک جدید",
+      "ar": "اشتراك جديد",
+      "tr": "Yeni abonelik",
+      "de": "Neues Abo"
+    },
+    "Edit subscription": {
+      "fa": "ویرایش اشتراک",
+      "ar": "تعديل الاشتراك",
+      "tr": "Aboneliği düzenle",
+      "de": "Abo bearbeiten"
+    },
+    "Price": {
+      "fa": "قیمت",
+      "ar": "السعر",
+      "tr": "Fiyat",
+      "de": "Preis"
+    },
+    "Currency": {
+      "fa": "ارز",
+      "ar": "العملة",
+      "tr": "Para birimi",
+      "de": "Währung"
+    },
+    "Every": {
+      "fa": "هر",
+      "ar": "كل",
+      "tr": "Her",
+      "de": "Alle"
+    },
+    "Billing cycle": {
+      "fa": "دوره‌ی پرداخت",
+      "ar": "دورة الدفع",
+      "tr": "Ödeme dönemi",
+      "de": "Abrechnungszeitraum"
+    },
+    "First payment": {
+      "fa": "اولین پرداخت",
+      "ar": "الدفعة الأولى",
+      "tr": "İlk ödeme",
+      "de": "Erste Zahlung"
+    },
+    "Starts with a free trial": {
+      "fa": "با دوره‌ی رایگان شروع می‌شود",
+      "ar": "يبدأ بتجربة مجانية",
+      "tr": "Ücretsiz denemeyle başlıyor",
+      "de": "Beginnt mit einer Testphase"
+    },
+    "Trial ends on": {
+      "fa": "پایان دوره‌ی رایگان",
+      "ar": "تنتهي التجربة في",
+      "tr": "Deneme bitiş tarihi",
+      "de": "Testphase endet am"
+    },
+    "Remind me": {
+      "fa": "یادآوری",
+      "ar": "ذكّرني",
+      "tr": "Hatırlat",
+      "de": "Erinnern"
+    },
+    "Category": {
+      "fa": "دسته",
+      "ar": "الفئة",
+      "tr": "Kategori",
+      "de": "Kategorie"
+    },
+    "Color": {
+      "fa": "رنگ",
+      "ar": "اللون",
+      "tr": "Renk",
+      "de": "Farbe"
+    },
+    "Payment method (optional)": {
+      "fa": "روش پرداخت (اختیاری)",
+      "ar": "طريقة الدفع (اختياري)",
+      "tr": "Ödeme yöntemi (isteğe bağlı)",
+      "de": "Zahlungsmethode (optional)"
+    },
+    "Manage link (optional)": {
+      "fa": "لینک مدیریت (اختیاری)",
+      "ar": "رابط الإدارة (اختياري)",
+      "tr": "Yönetim bağlantısı (isteğe bağlı)",
+      "de": "Verwaltungslink (optional)"
+    },
+    "Notes (optional)": {
+      "fa": "یادداشت (اختیاری)",
+      "ar": "ملاحظات (اختياري)",
+      "tr": "Notlar (isteğe bağlı)",
+      "de": "Notizen (optional)"
+    },
+    "Enter a name": {
+      "fa": "نام را وارد کن",
+      "ar": "أدخل اسمًا",
+      "tr": "Bir ad gir",
+      "de": "Gib einen Namen ein"
+    },
+    "Enter a valid price": {
+      "fa": "قیمت معتبر وارد کن",
+      "ar": "أدخل سعرًا صحيحًا",
+      "tr": "Geçerli bir fiyat gir",
+      "de": "Gib einen gültigen Preis ein"
+    },
+    "The trial must end on or after the start date": {
+      "fa": "پایان دوره‌ی رایگان نباید قبل از شروع باشد",
+      "ar": "يجب أن تنتهي التجربة في تاريخ البداية أو بعده",
+      "tr": "Deneme, başlangıç tarihinde veya sonrasında bitmeli",
+      "de": "Die Testphase muss am oder nach dem Startdatum enden"
+    },
+    "A new price applies from today. Earlier payments keep the old price.": {
+      "fa": "قیمت جدید از امروز اعمال می‌شود و پرداخت‌های قبلی با قیمت قبلی حساب می‌شوند.",
+      "ar": "يُطبّق السعر الجديد من اليوم، وتبقى الدفعات السابقة بالسعر القديم.",
+      "tr": "Yeni fiyat bugünden itibaren geçerli. Önceki ödemeler eski fiyatla kalır.",
+      "de": "Der neue Preis gilt ab heute. Frühere Zahlungen behalten den alten Preis."
+    },
+    "Weekly": {
+      "fa": "هفتگی",
+      "ar": "أسبوعي",
+      "tr": "Haftalık",
+      "de": "Wöchentlich"
+    },
+    "Monthly": {
+      "fa": "ماهانه",
+      "ar": "شهري",
+      "tr": "Aylık",
+      "de": "Monatlich"
+    },
+    "Yearly": {
+      "fa": "سالانه",
+      "ar": "سنوي",
+      "tr": "Yıllık",
+      "de": "Jährlich"
+    },
+    "Every %1$d %2$s": {
+      "fa": "هر %1$d %2$s",
+      "ar": "كل %1$d %2$s",
+      "tr": "Her %1$d %2$s",
+      "de": "Alle %1$d %2$s"
+    },
+    "Off": {
+      "fa": "خاموش",
+      "ar": "متوقف",
+      "tr": "Kapalı",
+      "de": "Aus"
+    },
+    "On the day": {
+      "fa": "همان روز",
+      "ar": "في اليوم نفسه",
+      "tr": "Aynı gün",
+      "de": "Am selben Tag"
+    },
+    "Choose a service": {
+      "fa": "انتخاب سرویس",
+      "ar": "اختر خدمة",
+      "tr": "Bir hizmet seç",
+      "de": "Dienst auswählen"
+    },
+    "Custom subscription": {
+      "fa": "اشتراک دلخواه",
+      "ar": "اشتراك مخصص",
+      "tr": "Özel abonelik",
+      "de": "Eigenes Abo"
+    },
+    "Anything that isn’t on the list": {
+      "fa": "هر چیزی که در فهرست نیست",
+      "ar": "أي شيء غير موجود في القائمة",
+      "tr": "Listede olmayan her şey",
+      "de": "Alles, was nicht in der Liste steht"
+    },
+    "Due this month: %1$s": {
+      "fa": "پرداختی این ماه: %1$s",
+      "ar": "المستحق هذا الشهر: %1$s",
+      "tr": "Bu ay ödenecek: %1$s",
+      "de": "Diesen Monat fällig: %1$s"
+    },
+    "No renewals on this day.": {
+      "fa": "در این روز تمدیدی نداری.",
+      "ar": "لا تجديدات في هذا اليوم.",
+      "tr": "Bu gün yenileme yok.",
+      "de": "An diesem Tag keine Verlängerungen."
+    },
+    "Last 12 months": {
+      "fa": "۱۲ ماه گذشته",
+      "ar": "آخر 12 شهرًا",
+      "tr": "Son 12 ay",
+      "de": "Letzte 12 Monate"
+    },
+    "Most expensive": {
+      "fa": "گران‌ترین‌ها",
+      "ar": "الأغلى",
+      "tr": "En pahalılar",
+      "de": "Am teuersten"
+    },
+    "%1$s a month together. Could one of them go?": {
+      "fa": "روی هم %1$s در ماه. شاید یکی‌شان لازم نباشد؟",
+      "ar": "%1$s شهريًا معًا. هل يمكن الاستغناء عن أحدها؟",
+      "tr": "Toplam ayda %1$s. Biri gidebilir mi?",
+      "de": "Zusammen %1$s pro Monat. Kann eins davon weg?"
+    },
+    "Add a few subscriptions to see where your money goes.": {
+      "fa": "چند اشتراک اضافه کن تا ببینی پولت کجا می‌رود.",
+      "ar": "أضف بعض الاشتراكات لترى أين تذهب أموالك.",
+      "tr": "Paranın nereye gittiğini görmek için birkaç abonelik ekle.",
+      "de": "Füge ein paar Abos hinzu, um zu sehen, wohin dein Geld geht."
+    },
+    "General": {
+      "fa": "عمومی",
+      "ar": "عام",
+      "tr": "Genel",
+      "de": "Allgemein"
+    },
+    "Exchange rates": {
+      "fa": "نرخ تبدیل ارز",
+      "ar": "أسعار الصرف",
+      "tr": "Döviz kurları",
+      "de": "Wechselkurse"
+    },
+    "1 %1$s = ? %2$s": {
+      "fa": "۱ %1$s = چند %2$s",
+      "ar": "1 %1$s = ؟ %2$s",
+      "tr": "1 %1$s = ? %2$s",
+      "de": "1 %1$s = ? %2$s"
+    },
+    "Default reminder": {
+      "fa": "یادآور پیش‌فرض",
+      "ar": "التذكير الافتراضي",
+      "tr": "Varsayılan hatırlatma",
+      "de": "Standard-Erinnerung"
+    },
+    "Appearance": {
+      "fa": "ظاهر",
+      "ar": "المظهر",
+      "tr": "Görünüm",
+      "de": "Darstellung"
+    },
+    "System": {
+      "fa": "مطابق سیستم",
+      "ar": "النظام",
+      "tr": "Sistem",
+      "de": "System"
+    },
+    "Light": {
+      "fa": "روشن",
+      "ar": "فاتح",
+      "tr": "Açık",
+      "de": "Hell"
+    },
+    "Dark": {
+      "fa": "تیره",
+      "ar": "داكن",
+      "tr": "Koyu",
+      "de": "Dunkel"
+    },
+    "Your data": {
+      "fa": "اطلاعات تو",
+      "ar": "بياناتك",
+      "tr": "Verilerin",
+      "de": "Deine Daten"
+    },
+    "Export backup (JSON)": {
+      "fa": "گرفتن نسخه‌ی پشتیبان (JSON)",
+      "ar": "تصدير نسخة احتياطية (JSON)",
+      "tr": "Yedeği dışa aktar (JSON)",
+      "de": "Sicherung exportieren (JSON)"
+    },
+    "Export spreadsheet (CSV)": {
+      "fa": "خروجی جدول (CSV)",
+      "ar": "تصدير جدول (CSV)",
+      "tr": "Tabloyu dışa aktar (CSV)",
+      "de": "Tabelle exportieren (CSV)"
+    },
+    "Restore from backup": {
+      "fa": "بازگردانی از نسخه‌ی پشتیبان",
+      "ar": "الاستعادة من نسخة احتياطية",
+      "tr": "Yedekten geri yükle",
+      "de": "Aus Sicherung wiederherstellen"
+    },
+    "Replace your data?": {
+      "fa": "اطلاعات فعلی جایگزین شود؟",
+      "ar": "استبدال بياناتك؟",
+      "tr": "Verilerin değiştirilsin mi?",
+      "de": "Deine Daten ersetzen?"
+    },
+    "Backup restored": {
+      "fa": "نسخه‌ی پشتیبان بازگردانی شد",
+      "ar": "تمت استعادة النسخة الاحتياطية",
+      "tr": "Yedek geri yüklendi",
+      "de": "Sicherung wiederhergestellt"
+    },
+    "That file isn’t a Tamdid backup": {
+      "fa": "این فایل نسخه‌ی پشتیبان تمدید نیست",
+      "ar": "هذا الملف ليس نسخة احتياطية من تمديد",
+      "tr": "Bu dosya bir Tamdid yedeği değil",
+      "de": "Diese Datei ist keine Tamdid-Sicherung"
+    },
+    "This backup is from a newer version of Tamdid. Update the app first.": {
+      "fa": "این نسخه‌ی پشتیبان مال نسخه‌ی جدیدتر تمدید است. اول برنامه را به‌روز کن.",
+      "ar": "هذه النسخة من إصدار أحدث من تمديد. حدّث التطبيق أولًا.",
+      "tr": "Bu yedek Tamdid'in daha yeni bir sürümünden. Önce uygulamayı güncelle.",
+      "de": "Diese Sicherung stammt aus einer neueren Tamdid-Version. Aktualisiere zuerst die App."
+    },
+    "Saved": {
+      "fa": "ذخیره شد",
+      "ar": "تم الحفظ",
+      "tr": "Kaydedildi",
+      "de": "Gespeichert"
+    },
+    "About": {
+      "fa": "درباره",
+      "ar": "حول",
+      "tr": "Hakkında",
+      "de": "Über"
+    },
+    "Version %1$s": {
+      "fa": "نسخه‌ی %1$s",
+      "ar": "الإصدار %1$s",
+      "tr": "Sürüm %1$s",
+      "de": "Version %1$s"
+    },
+    "Free and open source": {
+      "fa": "رایگان و متن‌باز",
+      "ar": "مجاني ومفتوح المصدر",
+      "tr": "Ücretsiz ve açık kaynak",
+      "de": "Kostenlos und Open Source"
+    },
+    "No account, no ads, no tracking. Your data never leaves this phone unless you export it.": {
+      "fa": "بدون حساب، بدون تبلیغ، بدون ردیابی. اطلاعاتت از این گوشی خارج نمی‌شود، مگر خودت خروجی بگیری.",
+      "ar": "بلا حساب، بلا إعلانات، بلا تتبّع. لا تغادر بياناتك هذا الهاتف إلا إذا صدّرتها.",
+      "tr": "Hesap yok, reklam yok, takip yok. Dışa aktarmadıkça verilerin bu telefondan çıkmaz.",
+      "de": "Kein Konto, keine Werbung, kein Tracking. Deine Daten verlassen dieses Handy nur, wenn du sie exportierst."
+    },
+    "Renewal reminders": {
+      "fa": "یادآور تمدید",
+      "ar": "تذكيرات التجديد",
+      "tr": "Yenileme hatırlatmaları",
+      "de": "Verlängerungs-Erinnerungen"
+    },
+    "%1$s renews %2$s": {
+      "fa": "%1$s %2$s تمدید می‌شود",
+      "ar": "يتجدد %1$s %2$s",
+      "tr": "%1$s %2$s yenileniyor",
+      "de": "%1$s verlängert sich %2$s"
+    },
+    "%1$s free trial ends %2$s": {
+      "fa": "دوره‌ی رایگان %1$s %2$s تمام می‌شود",
+      "ar": "تنتهي تجربة %1$s المجانية %2$s",
+      "tr": "%1$s ücretsiz denemesi %2$s bitiyor",
+      "de": "%1$s-Testphase endet %2$s"
+    },
+    "%1$s will be charged on %2$s.": {
+      "fa": "%1$s در تاریخ %2$s پرداخت می‌شود.",
+      "ar": "سيُخصم %1$s في %2$s.",
+      "tr": "%2$s tarihinde %1$s tahsil edilecek.",
+      "de": "Am %2$s werden %1$s abgebucht."
+    },
+    "today": {
+      "fa": "امروز",
+      "ar": "اليوم",
+      "tr": "bugün",
+      "de": "heute"
+    },
+    "tomorrow": {
+      "fa": "فردا",
+      "ar": "غدًا",
+      "tr": "yarın",
+      "de": "morgen"
+    },
+    "Per year": {
+      "fa": "در سال",
+      "ar": "سنويًا",
+      "tr": "Yıllık",
+      "de": "Pro Jahr"
+    },
+    "Per day": {
+      "fa": "در روز",
+      "ar": "يوميًا",
+      "tr": "Günlük",
+      "de": "Pro Tag"
+    },
+    "Plans": {
+      "fa": "اشتراک‌ها",
+      "ar": "الاشتراكات",
+      "tr": "Abonelikler",
+      "de": "Abos"
+    },
+    "Filter": {
+      "fa": "فیلتر",
+      "ar": "تصفية",
+      "tr": "Filtre",
+      "de": "Filter"
+    },
+    "Unit": {
+      "fa": "واحد",
+      "ar": "الوحدة",
+      "tr": "Birim",
+      "de": "Einheit"
+    },
+    "Rate": {
+      "fa": "نرخ",
+      "ar": "السعر",
+      "tr": "Kur",
+      "de": "Kurs"
+    },
+    "Today": {
+      "fa": "امروز",
+      "ar": "اليوم",
+      "tr": "Bugün",
+      "de": "Heute"
+    },
+    "day": {
+      "fa": "روز",
+      "ar": "يوم",
+      "tr": "gün",
+      "de": "Tag"
+    },
+    "days": {
+      "fa": "روز",
+      "ar": "أيام",
+      "tr": "gün",
+      "de": "Tage"
+    },
+    "week": {
+      "fa": "هفته",
+      "ar": "أسبوع",
+      "tr": "hafta",
+      "de": "Woche"
+    },
+    "weeks": {
+      "fa": "هفته",
+      "ar": "أسابيع",
+      "tr": "hafta",
+      "de": "Wochen"
+    },
+    "month": {
+      "fa": "ماه",
+      "ar": "شهر",
+      "tr": "ay",
+      "de": "Monat"
+    },
+    "months": {
+      "fa": "ماه",
+      "ar": "أشهر",
+      "tr": "ay",
+      "de": "Monate"
+    },
+    "year": {
+      "fa": "سال",
+      "ar": "سنة",
+      "tr": "yıl",
+      "de": "Jahr"
+    },
+    "years": {
+      "fa": "سال",
+      "ar": "سنوات",
+      "tr": "yıl",
+      "de": "Jahre"
+    },
+    "Language settings open in the Settings app": {
+      "fa": "زبان برنامه از اپ «تنظیمات» آیفون عوض می‌شود",
+      "ar": "تُفتح إعدادات اللغة في تطبيق الإعدادات",
+      "tr": "Dil ayarları Ayarlar uygulamasında açılır",
+      "de": "Die Sprache stellst du in der Einstellungen-App ein"
+    }
+  },
+  "plurals": {
+    "%1$d active subscriptions": {
+      "en": {
+        "one": "%1$d active subscription",
+        "other": "%1$d active subscriptions"
+      },
+      "ar": {
+        "zero": "لا اشتراكات نشطة",
+        "one": "اشتراك واحد نشط",
+        "two": "اشتراكان نشطان",
+        "few": "%1$d اشتراكات نشطة",
+        "many": "%1$d اشتراكًا نشطًا",
+        "other": "%1$d اشتراك نشط"
+      },
+      "tr": {
+        "one": "%1$d aktif abonelik",
+        "other": "%1$d aktif abonelik"
+      },
+      "de": {
+        "one": "%1$d aktives Abo",
+        "other": "%1$d aktive Abos"
+      },
+      "fa": {
+        "one": "%1$d اشتراک فعال",
+        "other": "%1$d اشتراک فعال"
+      },
+      "android": "home_active_count"
+    },
+    "You pay for %1$d services in %2$s": {
+      "en": {
+        "one": "You pay for %1$d service in %2$s",
+        "other": "You pay for %1$d services in %2$s"
+      },
+      "ar": {
+        "zero": "تدفع مقابل %1$d خدمة في فئة «%2$s»",
+        "one": "تدفع مقابل خدمة واحدة في فئة «%2$s»",
+        "two": "تدفع مقابل خدمتين في فئة «%2$s»",
+        "few": "تدفع مقابل %1$d خدمات في فئة «%2$s»",
+        "many": "تدفع مقابل %1$d خدمة في فئة «%2$s»",
+        "other": "تدفع مقابل %1$d خدمة في فئة «%2$s»"
+      },
+      "tr": {
+        "one": "%2$s kategorisinde %1$d hizmete ödüyorsun",
+        "other": "%2$s kategorisinde %1$d hizmete ödüyorsun"
+      },
+      "de": {
+        "one": "Du zahlst für %1$d Dienst in %2$s",
+        "other": "Du zahlst für %1$d Dienste in %2$s"
+      },
+      "fa": {
+        "one": "برای %1$d سرویس در دسته‌ی «%2$s» پول می‌دهی",
+        "other": "برای %1$d سرویس در دسته‌ی «%2$s» پول می‌دهی"
+      },
+      "android": "insights_overlap_title"
+    },
+    "The backup will replace all %1$d subscriptions and your settings.": {
+      "en": {
+        "one": "The backup will replace your %1$d subscription and your settings.",
+        "other": "The backup will replace all %1$d subscriptions and your settings."
+      },
+      "ar": {
+        "zero": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك.",
+        "one": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك.",
+        "two": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك.",
+        "few": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك.",
+        "many": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك.",
+        "other": "ستحلّ النسخة الاحتياطية محلّ اشتراكاتك (%1$d) وإعداداتك."
+      },
+      "tr": {
+        "one": "Yedek, %1$d aboneliğinin ve ayarlarının yerini alacak.",
+        "other": "Yedek, %1$d aboneliğinin ve ayarlarının yerini alacak."
+      },
+      "de": {
+        "one": "Die Sicherung ersetzt dein %1$d Abo und deine Einstellungen.",
+        "other": "Die Sicherung ersetzt alle %1$d Abos und deine Einstellungen."
+      },
+      "fa": {
+        "one": "نسخه‌ی پشتیبان جایگزین هر %1$d اشتراک و تنظیماتت می‌شود.",
+        "other": "نسخه‌ی پشتیبان جایگزین هر %1$d اشتراک و تنظیماتت می‌شود."
+      },
+      "android": "settings_import_confirm_body"
+    },
+    "in %1$d days": {
+      "en": {
+        "one": "in %1$d day",
+        "other": "in %1$d days"
+      },
+      "ar": {
+        "zero": "بعد %1$d يوم",
+        "one": "بعد يوم",
+        "two": "بعد يومين",
+        "few": "بعد %1$d أيام",
+        "many": "بعد %1$d يومًا",
+        "other": "بعد %1$d يوم"
+      },
+      "tr": {
+        "one": "%1$d gün sonra",
+        "other": "%1$d gün sonra"
+      },
+      "de": {
+        "one": "in %1$d Tag",
+        "other": "in %1$d Tagen"
+      },
+      "fa": {
+        "one": "%1$d روز دیگر",
+        "other": "%1$d روز دیگر"
+      },
+      "android": "relative_in_days"
+    },
+    "%1$d days before": {
+      "en": {
+        "one": "%1$d day before",
+        "other": "%1$d days before"
+      },
+      "ar": {
+        "zero": "قبل %1$d يوم",
+        "one": "قبل يوم",
+        "two": "قبل يومين",
+        "few": "قبل %1$d أيام",
+        "many": "قبل %1$d يومًا",
+        "other": "قبل %1$d يوم"
+      },
+      "tr": {
+        "one": "%1$d gün önce",
+        "other": "%1$d gün önce"
+      },
+      "de": {
+        "one": "%1$d Tag vorher",
+        "other": "%1$d Tage vorher"
+      },
+      "fa": {
+        "one": "%1$d روز قبل",
+        "other": "%1$d روز قبل"
+      },
+      "android": "reminder_days_before"
+    },
+    "unit_day": {
+      "en": {
+        "one": "day",
+        "other": "days"
+      },
+      "ar": {
+        "zero": "يوم",
+        "one": "يوم",
+        "two": "يوم",
+        "few": "أيام",
+        "many": "يومًا",
+        "other": "يوم"
+      },
+      "tr": {
+        "one": "gün",
+        "other": "gün"
+      },
+      "de": {
+        "one": "Tag",
+        "other": "Tage"
+      },
+      "fa": {
+        "one": "روز",
+        "other": "روز"
+      },
+      "android": "unit_day"
+    },
+    "unit_week": {
+      "en": {
+        "one": "week",
+        "other": "weeks"
+      },
+      "ar": {
+        "zero": "أسبوع",
+        "one": "أسبوع",
+        "two": "أسبوع",
+        "few": "أسابيع",
+        "many": "أسبوعًا",
+        "other": "أسبوع"
+      },
+      "tr": {
+        "one": "hafta",
+        "other": "hafta"
+      },
+      "de": {
+        "one": "Woche",
+        "other": "Wochen"
+      },
+      "fa": {
+        "one": "هفته",
+        "other": "هفته"
+      },
+      "android": "unit_week"
+    },
+    "unit_month": {
+      "en": {
+        "one": "month",
+        "other": "months"
+      },
+      "ar": {
+        "zero": "شهر",
+        "one": "شهر",
+        "two": "شهر",
+        "few": "أشهر",
+        "many": "شهرًا",
+        "other": "شهر"
+      },
+      "tr": {
+        "one": "ay",
+        "other": "ay"
+      },
+      "de": {
+        "one": "Monat",
+        "other": "Monate"
+      },
+      "fa": {
+        "one": "ماه",
+        "other": "ماه"
+      },
+      "android": "unit_month"
+    },
+    "unit_year": {
+      "en": {
+        "one": "year",
+        "other": "years"
+      },
+      "ar": {
+        "zero": "سنة",
+        "one": "سنة",
+        "two": "سنة",
+        "few": "سنوات",
+        "many": "سنة",
+        "other": "سنة"
+      },
+      "tr": {
+        "one": "yıl",
+        "other": "yıl"
+      },
+      "de": {
+        "one": "Jahr",
+        "other": "Jahre"
+      },
+      "fa": {
+        "one": "سال",
+        "other": "سال"
+      },
+      "android": "unit_year"
+    }
+  }
+}

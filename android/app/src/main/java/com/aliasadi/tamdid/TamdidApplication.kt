@@ -38,7 +38,7 @@ class AppContainer(context: Context) {
         scope = applicationScope,
         ioDispatcher = Dispatchers.IO,
         initialData = {
-            val language = if (Locale.getDefault().language == "fa") AppLanguage.Persian else AppLanguage.English
+            val language = AppLanguage.forLocale(Locale.getDefault().language)
             AppData(settings = AppSettings.defaults(language))
         },
         onChange = reminderScheduler::reschedule,

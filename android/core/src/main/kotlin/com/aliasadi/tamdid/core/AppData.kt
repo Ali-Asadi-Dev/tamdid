@@ -44,6 +44,9 @@ data class AppSettings(
         fun defaults(language: AppLanguage): AppSettings = when (language) {
             AppLanguage.Persian -> AppSettings(CurrencyCode.Toman, CalendarSystem.Jalali, defaultReminderDays = 1)
             AppLanguage.English -> AppSettings(CurrencyCode.UsDollar, CalendarSystem.Gregorian, defaultReminderDays = 1)
+            AppLanguage.Arabic -> AppSettings(CurrencyCode.Dirham, CalendarSystem.Gregorian, defaultReminderDays = 1)
+            AppLanguage.Turkish -> AppSettings(CurrencyCode.Lira, CalendarSystem.Gregorian, defaultReminderDays = 1)
+            AppLanguage.German -> AppSettings(CurrencyCode.Euro, CalendarSystem.Gregorian, defaultReminderDays = 1)
         }
     }
 }

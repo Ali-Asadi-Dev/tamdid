@@ -448,6 +448,66 @@
       "currency": "IRT",
       "language": "en",
       "expected": "123,456,789 Toman"
+    },
+    {
+      "amountMinor": 120000,
+      "currency": "IRT",
+      "language": "ar",
+      "expected": "١٢٠٬٠٠٠ تومان"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "USD",
+      "language": "ar",
+      "expected": "١٩٫٩٩ دولار"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "AED",
+      "language": "ar",
+      "expected": "١٩٫٩٩ درهم"
+    },
+    {
+      "amountMinor": 123456,
+      "currency": "TRY",
+      "language": "tr",
+      "expected": "₺1.234,56"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "USD",
+      "language": "tr",
+      "expected": "$19,99"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "AED",
+      "language": "tr",
+      "expected": "AED 19,99"
+    },
+    {
+      "amountMinor": 120000,
+      "currency": "IRT",
+      "language": "tr",
+      "expected": "120.000 Toman"
+    },
+    {
+      "amountMinor": 123456,
+      "currency": "EUR",
+      "language": "de",
+      "expected": "1.234,56 €"
+    },
+    {
+      "amountMinor": 999,
+      "currency": "USD",
+      "language": "de",
+      "expected": "9,99 $"
+    },
+    {
+      "amountMinor": 120000,
+      "currency": "IRT",
+      "language": "de",
+      "expected": "120.000 Toman"
     }
   ],
   "monthlyCost": [
@@ -492,6 +552,226 @@
       "unit": "month",
       "interval": 1,
       "expected": 120000
+    }
+  ],
+  "dateText": [
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "en",
+      "style": "medium",
+      "expected": "Nov 20, 2026"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "en",
+      "style": "dayMonth",
+      "expected": "Nov 20"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "jalali",
+      "language": "en",
+      "style": "medium",
+      "expected": "29 Aban 1405"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "jalali",
+      "language": "fa",
+      "style": "medium",
+      "expected": "۲۹ آبان ۱۴۰۵"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "fa",
+      "style": "dayMonth",
+      "expected": "۲۰ نوامبر"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "ar",
+      "style": "medium",
+      "expected": "٢٠ نوفمبر ٢٠٢٦"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "jalali",
+      "language": "ar",
+      "style": "monthYear",
+      "expected": "آبان ١٤٠٥"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "tr",
+      "style": "medium",
+      "expected": "20 Kasım 2026"
+    },
+    {
+      "date": "2026-08-03",
+      "calendar": "gregorian",
+      "language": "tr",
+      "style": "shortMonth",
+      "expected": "Ağu"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "gregorian",
+      "language": "de",
+      "style": "medium",
+      "expected": "20. November 2026"
+    },
+    {
+      "date": "2026-03-05",
+      "calendar": "gregorian",
+      "language": "de",
+      "style": "dayMonth",
+      "expected": "5. März"
+    },
+    {
+      "date": "2026-11-20",
+      "calendar": "jalali",
+      "language": "de",
+      "style": "medium",
+      "expected": "29. Aban 1405"
+    }
+  ],
+  "relative": [
+    {
+      "date": "2026-11-20",
+      "today": "2026-11-20",
+      "language": "en",
+      "expected": "Today"
+    },
+    {
+      "date": "2026-11-21",
+      "today": "2026-11-20",
+      "language": "en",
+      "expected": "Tomorrow"
+    },
+    {
+      "date": "2026-11-25",
+      "today": "2026-11-20",
+      "language": "en",
+      "expected": "In 5 days"
+    },
+    {
+      "date": "2026-11-18",
+      "today": "2026-11-20",
+      "language": "en",
+      "expected": "2 days ago"
+    },
+    {
+      "date": "2026-11-25",
+      "today": "2026-11-20",
+      "language": "fa",
+      "expected": "۵ روز دیگر"
+    },
+    {
+      "date": "2026-11-22",
+      "today": "2026-11-20",
+      "language": "ar",
+      "expected": "بعد يومين"
+    },
+    {
+      "date": "2026-11-25",
+      "today": "2026-11-20",
+      "language": "ar",
+      "expected": "بعد ٥ أيام"
+    },
+    {
+      "date": "2026-12-20",
+      "today": "2026-11-20",
+      "language": "ar",
+      "expected": "بعد ٣٠ يومًا"
+    },
+    {
+      "date": "2026-11-19",
+      "today": "2026-11-20",
+      "language": "ar",
+      "expected": "أمس"
+    },
+    {
+      "date": "2026-11-25",
+      "today": "2026-11-20",
+      "language": "tr",
+      "expected": "5 gün sonra"
+    },
+    {
+      "date": "2026-11-21",
+      "today": "2026-11-20",
+      "language": "tr",
+      "expected": "Yarın"
+    },
+    {
+      "date": "2026-11-25",
+      "today": "2026-11-20",
+      "language": "de",
+      "expected": "In 5 Tagen"
+    },
+    {
+      "date": "2026-11-15",
+      "today": "2026-11-20",
+      "language": "de",
+      "expected": "Vor 5 Tagen"
+    }
+  ],
+  "weekdays": [
+    {
+      "firstWeekday": 6,
+      "language": "fa",
+      "expected": [
+        "ش",
+        "ی",
+        "د",
+        "س",
+        "چ",
+        "پ",
+        "ج"
+      ]
+    },
+    {
+      "firstWeekday": 6,
+      "language": "ar",
+      "expected": [
+        "س",
+        "ح",
+        "ن",
+        "ث",
+        "ر",
+        "خ",
+        "ج"
+      ]
+    },
+    {
+      "firstWeekday": 1,
+      "language": "tr",
+      "expected": [
+        "P",
+        "S",
+        "Ç",
+        "P",
+        "C",
+        "C",
+        "P"
+      ]
+    },
+    {
+      "firstWeekday": 1,
+      "language": "de",
+      "expected": [
+        "M",
+        "D",
+        "M",
+        "D",
+        "F",
+        "S",
+        "S"
+      ]
     }
   ]
 }

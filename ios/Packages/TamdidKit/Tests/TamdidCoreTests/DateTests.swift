@@ -125,6 +125,28 @@ private func d(_ iso: String) -> CivilDate { CivilDate(iso: iso)! }
         #expect(DateText.format(CalendarMonth(system: .jalali, year: 1405, month: 1), language: .persian) == "فروردین ۱۴۰۵")
     }
 
+    @Test func languagesMapFromLocaleCodes() {
+        #expect(AppLanguage(code: "fa-IR") == .persian)
+        #expect(AppLanguage(code: "de_CH") == .german)
+        #expect(AppLanguage(code: "ja") == .english)
+        #expect(AppLanguage(code: nil) == .english)
+        #expect(AppLanguage.allCases.filter(\.isRightToLeft) == [.persian, .arabic])
+        #expect(DateText.defaultFirstWeekday(for: .gregorian, language: .arabic) == 6)
+        #expect(DateText.defaultFirstWeekday(for: .gregorian, language: .german) == 1)
+        #expect(DateText.defaultFirstWeekday(for: .jalali, language: .english) == 6)
+    }
+
+    @Test func everyLanguageHasEveryName() {
+        for language in AppLanguage.allCases {
+            for category in SubscriptionCategory.allCases { #expect(!category.displayName(language).isEmpty) }
+            for currency in CurrencyCode.allCases { #expect(!currency.displayName(language).isEmpty) }
+            for calendar in CalendarSystem.allCases {
+                for month in 1...12 { #expect(!DateText.monthName(month, calendar: calendar, language: language).isEmpty) }
+            }
+            #expect(Set(AppSettings.defaults(for: language).primaryCurrency.rawValue).count > 0)
+        }
+    }
+
     @Test func weekdaySymbolsFollowFirstWeekday() {
         #expect(DateText.weekdaySymbols(firstWeekday: 6, language: .persian) == ["ش", "ی", "د", "س", "چ", "پ", "ج"])
         #expect(DateText.weekdaySymbols(firstWeekday: 1, language: .english) == ["M", "T", "W", "T", "F", "S", "S"])

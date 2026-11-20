@@ -173,8 +173,8 @@ private fun MonthlyBars(state: InsightsUiState) {
                     )
                     Text(
                         // Jalali month names are long and share prefixes, so label bars by month number.
-                        if (state.calendar == com.aliasadi.tamdid.core.CalendarSystem.Jalali) format.number(month.month)
-                        else DateText.monthName(month.month, state.calendar, format.language).take(if (format.language.isRightToLeft) 3 else 1),
+                        if (state.calendar == com.aliasadi.tamdid.core.CalendarSystem.Jalali || format.language.isRightToLeft) format.number(month.month)
+                        else DateText.monthName(month.month, state.calendar, format.language).take(1),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,

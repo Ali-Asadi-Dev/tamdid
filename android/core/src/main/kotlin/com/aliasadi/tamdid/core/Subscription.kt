@@ -92,39 +92,17 @@ enum class SubscriptionCategory {
     val key: String get() = name.lowercase()
 
     fun displayName(language: AppLanguage): String = when (language) {
-        AppLanguage.English -> when (this) {
-            Streaming -> "Video & TV"
-            Music -> "Music"
-            Cloud -> "Cloud storage"
-            Productivity -> "Productivity"
-            Ai -> "AI tools"
-            Education -> "Education"
-            Reading -> "Books & reading"
-            Gaming -> "Gaming"
-            Social -> "Social"
-            Shopping -> "Shopping"
-            Health -> "Health & fitness"
-            Utilities -> "Internet & phone"
-            Finance -> "Finance"
-            Other -> "Other"
-        }
-        AppLanguage.Persian -> when (this) {
-            Streaming -> "فیلم و سریال"
-            Music -> "موسیقی"
-            Cloud -> "فضای ابری"
-            Productivity -> "بهره‌وری"
-            Ai -> "هوش مصنوعی"
-            Education -> "آموزش"
-            Reading -> "کتاب و مطالعه"
-            Gaming -> "بازی"
-            Social -> "شبکه اجتماعی"
-            Shopping -> "خرید"
-            Health -> "سلامت و ورزش"
-            Utilities -> "اینترنت و موبایل"
-            Finance -> "مالی"
-            Other -> "سایر"
-        }
-    }
+        AppLanguage.English -> listOf("Video & TV", "Music", "Cloud storage", "Productivity", "AI tools", "Education", "Books & reading",
+            "Gaming", "Social", "Shopping", "Health & fitness", "Internet & phone", "Finance", "Other")
+        AppLanguage.Persian -> listOf("فیلم و سریال", "موسیقی", "فضای ابری", "بهره‌وری", "هوش مصنوعی", "آموزش", "کتاب و مطالعه",
+            "بازی", "شبکه اجتماعی", "خرید", "سلامت و ورزش", "اینترنت و موبایل", "مالی", "سایر")
+        AppLanguage.Arabic -> listOf("أفلام ومسلسلات", "موسيقى", "تخزين سحابي", "إنتاجية", "أدوات الذكاء الاصطناعي", "تعليم", "كتب وقراءة",
+            "ألعاب", "تواصل اجتماعي", "تسوق", "صحة ولياقة", "إنترنت وهاتف", "مالية", "أخرى")
+        AppLanguage.Turkish -> listOf("Film ve dizi", "Müzik", "Bulut depolama", "Verimlilik", "Yapay zekâ araçları", "Eğitim", "Kitap ve okuma",
+            "Oyun", "Sosyal medya", "Alışveriş", "Sağlık ve spor", "İnternet ve telefon", "Finans", "Diğer")
+        AppLanguage.German -> listOf("Filme & Serien", "Musik", "Cloud-Speicher", "Produktivität", "KI-Tools", "Bildung", "Bücher & Lesen",
+            "Gaming", "Soziale Netzwerke", "Shopping", "Gesundheit & Fitness", "Internet & Telefon", "Finanzen", "Sonstiges")
+    }[ordinal]
 
     companion object {
         fun fromKey(key: String): SubscriptionCategory? = entries.firstOrNull { it.key == key }

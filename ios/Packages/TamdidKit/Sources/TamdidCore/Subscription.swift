@@ -62,42 +62,20 @@ public enum SubscriptionCategory: String, Codable, CaseIterable, Sendable, Ident
     public var id: String { rawValue }
 
     public func displayName(_ language: AppLanguage) -> String {
-        switch language {
-        case .english:
-            switch self {
-            case .streaming: "Video & TV"
-            case .music: "Music"
-            case .cloud: "Cloud storage"
-            case .productivity: "Productivity"
-            case .ai: "AI tools"
-            case .education: "Education"
-            case .reading: "Books & reading"
-            case .gaming: "Gaming"
-            case .social: "Social"
-            case .shopping: "Shopping"
-            case .health: "Health & fitness"
-            case .utilities: "Internet & phone"
-            case .finance: "Finance"
-            case .other: "Other"
-            }
-        case .persian:
-            switch self {
-            case .streaming: "فیلم و سریال"
-            case .music: "موسیقی"
-            case .cloud: "فضای ابری"
-            case .productivity: "بهره‌وری"
-            case .ai: "هوش مصنوعی"
-            case .education: "آموزش"
-            case .reading: "کتاب و مطالعه"
-            case .gaming: "بازی"
-            case .social: "شبکه اجتماعی"
-            case .shopping: "خرید"
-            case .health: "سلامت و ورزش"
-            case .utilities: "اینترنت و موبایل"
-            case .finance: "مالی"
-            case .other: "سایر"
-            }
+        let index = Self.allCases.firstIndex(of: self)!
+        let names: [String] = switch language {
+        case .english: ["Video & TV", "Music", "Cloud storage", "Productivity", "AI tools", "Education", "Books & reading",
+                        "Gaming", "Social", "Shopping", "Health & fitness", "Internet & phone", "Finance", "Other"]
+        case .persian: ["فیلم و سریال", "موسیقی", "فضای ابری", "بهره‌وری", "هوش مصنوعی", "آموزش", "کتاب و مطالعه",
+                        "بازی", "شبکه اجتماعی", "خرید", "سلامت و ورزش", "اینترنت و موبایل", "مالی", "سایر"]
+        case .arabic: ["أفلام ومسلسلات", "موسيقى", "تخزين سحابي", "إنتاجية", "أدوات الذكاء الاصطناعي", "تعليم", "كتب وقراءة",
+                       "ألعاب", "تواصل اجتماعي", "تسوق", "صحة ولياقة", "إنترنت وهاتف", "مالية", "أخرى"]
+        case .turkish: ["Film ve dizi", "Müzik", "Bulut depolama", "Verimlilik", "Yapay zekâ araçları", "Eğitim", "Kitap ve okuma",
+                        "Oyun", "Sosyal medya", "Alışveriş", "Sağlık ve spor", "İnternet ve telefon", "Finans", "Diğer"]
+        case .german: ["Filme & Serien", "Musik", "Cloud-Speicher", "Produktivität", "KI-Tools", "Bildung", "Bücher & Lesen",
+                       "Gaming", "Soziale Netzwerke", "Shopping", "Gesundheit & Fitness", "Internet & Telefon", "Finanzen", "Sonstiges"]
         }
+        return names[index]
     }
 }
 

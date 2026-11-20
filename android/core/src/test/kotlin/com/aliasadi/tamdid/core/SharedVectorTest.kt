@@ -95,4 +95,40 @@ class SharedVectorTest {
             assertEquals(case.toString(), case["expected"]!!.jsonPrimitive.long, s.monthlyCostMinor)
         }
     }
+
+    @Test
+    fun dateTextRelativeAndWeekdays() {
+        for (case in vectors["dateText"]!!.jsonArray.map { it.jsonObject }) {
+            val style = when (case.str("style")) {
+                "medium" -> DateText.Style.Medium
+                "dayMonth" -> DateText.Style.DayMonth
+                "monthYear" -> DateText.Style.MonthYear
+                else -> DateText.Style.ShortMonth
+            }
+            val calendar = if (case.str("calendar") == "jalali") CalendarSystem.Jalali else CalendarSystem.Gregorian
+            assertEquals(case.toString(), case.str("expected"),
+                DateText.format(LocalDate.parse(case.str("date")), calendar, AppLanguage.fromCode(case.str("language")!!)!!, style))
+        }
+        for (case in vectors["relative"]!!.jsonArray.map { it.jsonObject }) {
+            assertEquals(case.toString(), case.str("expected"),
+                DateText.relative(LocalDate.parse(case.str("date")), LocalDate.parse(case.str("today")), AppLanguage.fromCode(case.str("language")!!)!!))
+        }
+        for (case in vectors["weekdays"]!!.jsonArray.map { it.jsonObject }) {
+            assertEquals(case.toString(), case["expected"]!!.jsonArray.map { it.jsonPrimitive.content },
+                DateText.weekdaySymbols(case["firstWeekday"]!!.jsonPrimitive.int, AppLanguage.fromCode(case.str("language")!!)!!))
+        }
+    }
+
+    @Test
+    fun everyLanguageHasEveryName() {
+        for (language in AppLanguage.entries) {
+            SubscriptionCategory.entries.forEach { check(it.displayName(language).isNotEmpty()) }
+            CurrencyCode.entries.forEach { check(it.displayName(language).isNotEmpty()) }
+            for (calendar in CalendarSystem.entries) for (m in 1..12) check(DateText.monthName(m, calendar, language).isNotEmpty())
+        }
+        assertEquals(AppLanguage.Persian, AppLanguage.forLocale("fa-IR"))
+        assertEquals(AppLanguage.English, AppLanguage.forLocale("ja"))
+        assertEquals(6, DateText.defaultFirstWeekday(CalendarSystem.Gregorian, AppLanguage.Arabic))
+        assertEquals(120000L, MoneyFormatter.parse("١٢٠٬٠٠٠", CurrencyCode.Toman))
+    }
 }

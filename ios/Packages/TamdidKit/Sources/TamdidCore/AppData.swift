@@ -42,6 +42,9 @@ public struct AppSettings: Hashable, Codable, Sendable {
         switch language {
         case .persian: AppSettings(primaryCurrency: .toman, calendar: .jalali)
         case .english: AppSettings(primaryCurrency: .usDollar, calendar: .gregorian)
+        case .arabic: AppSettings(primaryCurrency: .dirham, calendar: .gregorian)
+        case .turkish: AppSettings(primaryCurrency: .lira, calendar: .gregorian)
+        case .german: AppSettings(primaryCurrency: .euro, calendar: .gregorian)
         }
     }
 

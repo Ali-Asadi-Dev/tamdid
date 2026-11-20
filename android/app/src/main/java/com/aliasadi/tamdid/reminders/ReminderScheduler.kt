@@ -96,7 +96,7 @@ class ReminderScheduler(private val context: Context, private val clock: Clock) 
 
         fun languageOf(context: Context): AppLanguage {
             val locale: Locale = context.resources.configuration.locales[0]
-            return if (locale.language == "fa") AppLanguage.Persian else AppLanguage.English
+            return AppLanguage.forLocale(locale.language)
         }
 
         internal fun title(context: Context, reminder: PlannedReminder, language: AppLanguage): String {

@@ -157,6 +157,12 @@ private func sub(
         #expect(MoneyFormatter.parse("99999999999999999999", currency: .usDollar) == nil)
     }
 
+    @Test func parsesEveryLanguagesOwnFormatting() {
+        // What each language's formatter prints must parse back (minus the currency word).
+        #expect(MoneyFormatter.parse("١٢٠٬٠٠٠", currency: .toman) == 120000)
+        #expect(MoneyFormatter.parse("١٩٫٩٩", currency: .usDollar) == 1999)
+    }
+
     @Test func editableTextRoundTrips() {
         for currency in CurrencyCode.allCases {
             for amount: Int64 in [0, 5, 99, 100, 999, 123_456] {

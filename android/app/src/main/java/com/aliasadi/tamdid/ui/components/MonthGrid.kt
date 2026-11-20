@@ -80,7 +80,7 @@ fun MonthGrid(
     markers: (LocalDate) -> List<Color> = { emptyList() },
 ) {
     val format = LocalAppFormat.current
-    val firstWeekday = DateText.defaultFirstWeekday(month.system)
+    val firstWeekday = DateText.defaultFirstWeekday(month.system, format.language)
     Column(modifier) {
         Row(Modifier.fillMaxWidth()) {
             for (symbol in DateText.weekdaySymbols(firstWeekday, format.language)) {

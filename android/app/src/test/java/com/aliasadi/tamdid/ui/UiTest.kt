@@ -182,6 +182,41 @@ class UiTest {
     }
 
     @Test
+    @Config(qualifiers = "ar-w400dp-h860dp-xxhdpi")
+    fun arabicIsRightToLeftWithArabicDigits() {
+        launch(SampleData.english())
+        compose.onNodeWithText("شهريًا").assertIsDisplayed()
+        compose.onNodeWithText("الأيام السبعة القادمة").assertIsDisplayed()
+        screenshot("ar-1-home")
+        compose.onNodeWithText("التقويم").performClick()
+        compose.onNodeWithText("نوفمبر ٢٠٢٦").assertIsDisplayed()
+        screenshot("ar-4-calendar")
+    }
+
+    @Test
+    @Config(qualifiers = "tr-w400dp-h860dp-xxhdpi")
+    fun turkish() {
+        launch(SampleData.english())
+        compose.onNodeWithText("Aylık").assertIsDisplayed()
+        compose.onNodeWithText("$94,76").assertIsDisplayed()
+        screenshot("tr-1-home")
+        compose.onNodeWithText("Ayarlar").performClick()
+        screenshot("tr-6-settings")
+    }
+
+    @Test
+    @Config(qualifiers = "de-w400dp-h860dp-xxhdpi")
+    fun german() {
+        launch(SampleData.english())
+        compose.onNodeWithText("Pro Monat").assertIsDisplayed()
+        compose.onNodeWithText("94,76\u00A0$").assertIsDisplayed()
+        screenshot("de-1-home")
+        compose.onNodeWithText("Abos").performClick()
+        compose.onAllNodesWithText("Netflix")[0].performClick()
+        screenshot("de-3-detail")
+    }
+
+    @Test
     @Config(qualifiers = "w400dp-h860dp-night-xxhdpi")
     fun darkTheme() {
         launch(SampleData.english())

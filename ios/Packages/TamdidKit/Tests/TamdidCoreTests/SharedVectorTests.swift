@@ -58,12 +58,19 @@ enum Vectors {
     struct MoneyCase: Decodable, Sendable { let amountMinor: Int64; let currency: String; let language: String; let expected: String }
     struct MonthlyCase: Decodable, Sendable { let amountMinor: Int64; let unit: String; let interval: Int; let expected: Int64 }
 
+    struct DateTextCase: Decodable, Sendable { let date: String; let calendar: String; let language: String; let style: String; let expected: String }
+    struct RelativeCase: Decodable, Sendable { let date: String; let today: String; let language: String; let expected: String }
+    struct WeekdayCase: Decodable, Sendable { let firstWeekday: Int; let language: String; let expected: [String] }
+
     struct File: Decodable, Sendable {
         let nextRenewal: [Cycle]
         let charges: [Cycle]
         let jalali: JalaliVectors
         let money: [MoneyCase]
         let monthlyCost: [MonthlyCase]
+        let dateText: [DateTextCase]
+        let relative: [RelativeCase]
+        let weekdays: [WeekdayCase]
     }
 
     static let file: File = {
@@ -120,5 +127,29 @@ struct SharedVectorTests {
             startDate: CivilDate(year: 2026, month: 1, day: 1)!
         )
         #expect(subscription.monthlyCostMinor == vector.expected)
+    }
+
+    @Test("Date text", arguments: Vectors.file.dateText)
+    func dateText(_ vector: Vectors.DateTextCase) {
+        let style: DateText.Style = switch vector.style {
+        case "medium": .medium
+        case "dayMonth": .dayMonth
+        case "monthYear": .monthYear
+        default: .shortMonth
+        }
+        let text = DateText.format(CivilDate(iso: vector.date)!, calendar: CalendarSystem(rawValue: vector.calendar)!,
+                                   language: AppLanguage(rawValue: vector.language)!, style: style)
+        #expect(text == vector.expected)
+    }
+
+    @Test("Relative days", arguments: Vectors.file.relative)
+    func relative(_ vector: Vectors.RelativeCase) {
+        let text = DateText.relative(CivilDate(iso: vector.date)!, today: CivilDate(iso: vector.today)!, language: AppLanguage(rawValue: vector.language)!)
+        #expect(text == vector.expected)
+    }
+
+    @Test("Weekday symbols", arguments: Vectors.file.weekdays)
+    func weekdays(_ vector: Vectors.WeekdayCase) {
+        #expect(DateText.weekdaySymbols(firstWeekday: vector.firstWeekday, language: AppLanguage(rawValue: vector.language)!) == vector.expected)
     }
 }

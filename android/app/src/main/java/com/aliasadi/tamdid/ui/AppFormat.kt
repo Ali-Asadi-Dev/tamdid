@@ -29,7 +29,7 @@ data class AppFormat(val language: AppLanguage, val calendar: CalendarSystem, va
 
     /** "+ €15.49" lines for amounts that could not be converted. */
     fun unconverted(total: MoneyTotal): String =
-        total.unconverted.entries.joinToString("، ".takeIf { language == AppLanguage.Persian } ?: ", ") { (currency, amount) ->
+        total.unconverted.entries.joinToString(if (language.isRightToLeft) "، " else ", ") { (currency, amount) ->
             money(Money(amount, currency))
         }
 }
@@ -40,7 +40,7 @@ val LocalAppFormat = staticCompositionLocalOf {
 
 @Composable
 fun currentLanguage(): AppLanguage =
-    if (LocalConfiguration.current.locales[0].language == "fa") AppLanguage.Persian else AppLanguage.English
+    AppLanguage.forLocale(LocalConfiguration.current.locales[0].language)
 
 @Composable
 fun cycleText(cycle: BillingCycle): String {
