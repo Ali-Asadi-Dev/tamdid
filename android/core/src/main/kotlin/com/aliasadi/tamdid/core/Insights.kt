@@ -143,7 +143,7 @@ object ReminderPlanner {
         val result = mutableListOf<PlannedReminder>()
         for (s in subscriptions) {
             if (!s.isActive) continue
-            val daysBefore = s.reminderDaysBefore ?: continue
+            val daysBefore = s.reminderDaysBefore?.takeIf { it >= 0 } ?: continue
             for (charge in s.charges(today, end.plusDays(daysBefore.toLong()))) {
                 val fire = charge.minusDays(daysBefore.toLong())
                 if (fire < today || fire > end) continue

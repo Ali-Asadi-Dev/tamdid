@@ -150,7 +150,6 @@ private func sub(
     @Test func rejectsNonsense() {
         #expect(MoneyFormatter.parse("", currency: .usDollar) == nil)
         #expect(MoneyFormatter.parse("abc", currency: .usDollar) == nil)
-        #expect(MoneyFormatter.parse("9.999", currency: .usDollar) == nil)
         #expect(MoneyFormatter.parse("12.5", currency: .toman) == nil)
         #expect(MoneyFormatter.parse("1.2.3", currency: .usDollar) == nil)
         #expect(MoneyFormatter.parse("-5", currency: .usDollar) == nil)

@@ -773,5 +773,152 @@
         "S"
       ]
     }
+  ],
+  "parse": [
+    {
+      "input": "9.99",
+      "currency": "USD",
+      "expected": 999
+    },
+    {
+      "input": "9,99",
+      "currency": "USD",
+      "expected": 999
+    },
+    {
+      "input": "9.9",
+      "currency": "USD",
+      "expected": 990
+    },
+    {
+      "input": ".5",
+      "currency": "USD",
+      "expected": 50
+    },
+    {
+      "input": "9.",
+      "currency": "USD",
+      "expected": 900
+    },
+    {
+      "input": "10",
+      "currency": "USD",
+      "expected": 1000
+    },
+    {
+      "input": "1,299.00",
+      "currency": "EUR",
+      "expected": 129900
+    },
+    {
+      "input": "1.299,00",
+      "currency": "EUR",
+      "expected": 129900
+    },
+    {
+      "input": "1 299,5",
+      "currency": "EUR",
+      "expected": 129950
+    },
+    {
+      "input": "1,500",
+      "currency": "USD",
+      "expected": 150000
+    },
+    {
+      "input": "9.999",
+      "currency": "USD",
+      "expected": 999900
+    },
+    {
+      "input": "120.000",
+      "currency": "IRT",
+      "expected": 120000
+    },
+    {
+      "input": "۱۲۰٬۰۰۰",
+      "currency": "IRT",
+      "expected": 120000
+    },
+    {
+      "input": "١٢٠ ٠٠٠",
+      "currency": "IRT",
+      "expected": 120000
+    },
+    {
+      "input": "۹٫۹۹",
+      "currency": "USD",
+      "expected": 999
+    },
+    {
+      "input": "١٩٫٩٩",
+      "currency": "USD",
+      "expected": 1999
+    },
+    {
+      "input": "9/99",
+      "currency": "USD",
+      "expected": 999
+    },
+    {
+      "input": " 15.49 ",
+      "currency": "USD",
+      "expected": 1549
+    },
+    {
+      "input": "",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": ".",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "abc",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "-5",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "9.999,1",
+      "currency": "USD",
+      "expected": 999910
+    },
+    {
+      "input": "1.2.3",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "1..",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "12.5",
+      "currency": "IRT",
+      "expected": null
+    },
+    {
+      "input": "12,5",
+      "currency": "IRT",
+      "expected": null
+    },
+    {
+      "input": "1,23,456",
+      "currency": "USD",
+      "expected": null
+    },
+    {
+      "input": "99999999999999999999",
+      "currency": "USD",
+      "expected": null
+    }
   ]
 }

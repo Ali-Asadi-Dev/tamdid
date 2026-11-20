@@ -62,6 +62,8 @@ enum Vectors {
     struct RelativeCase: Decodable, Sendable { let date: String; let today: String; let language: String; let expected: String }
     struct WeekdayCase: Decodable, Sendable { let firstWeekday: Int; let language: String; let expected: [String] }
 
+    struct ParseCase: Decodable, Sendable { let input: String; let currency: String; let expected: Int64? }
+
     struct File: Decodable, Sendable {
         let nextRenewal: [Cycle]
         let charges: [Cycle]
@@ -71,6 +73,7 @@ enum Vectors {
         let dateText: [DateTextCase]
         let relative: [RelativeCase]
         let weekdays: [WeekdayCase]
+        let parse: [ParseCase]
     }
 
     static let file: File = {
@@ -151,5 +154,10 @@ struct SharedVectorTests {
     @Test("Weekday symbols", arguments: Vectors.file.weekdays)
     func weekdays(_ vector: Vectors.WeekdayCase) {
         #expect(DateText.weekdaySymbols(firstWeekday: vector.firstWeekday, language: AppLanguage(rawValue: vector.language)!) == vector.expected)
+    }
+
+    @Test("Parsing typed prices", arguments: Vectors.file.parse)
+    func parse(_ vector: Vectors.ParseCase) {
+        #expect(MoneyFormatter.parse(vector.input, currency: CurrencyCode(rawValue: vector.currency)!) == vector.expected, "\(vector.input)")
     }
 }

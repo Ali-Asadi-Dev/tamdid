@@ -65,6 +65,21 @@ private func d(_ iso: String) -> CivilDate { CivilDate(iso: iso)! }
         }
     }
 
+    @Test func corruptValuesCannotHangOrCrashTheApp() throws {
+        // interval 0 would repeat the same date forever: the backup is rejected instead.
+        let zeroInterval = #"""
+        {"schemaVersion": 1, "settings": {}, "subscriptions": [{"id": "0F8FAD5B-D9CB-469F-A165-70867728950E", "name": "x",
+         "price": {"amountMinor": 1, "currency": "USD"}, "cycle": {"unit": "day", "interval": 0}, "startDate": "2026-01-01"}]}
+        """#
+        #expect(throws: StorageError.unreadableBackup) { try BackupCodec.decode(Data(zeroInterval.utf8)) }
+        let badHour = try BackupCodec.decode(Data(#"{"schemaVersion": 1, "subscriptions": [], "settings": {"reminderHour": 27}}"#.utf8))
+        #expect(badHour.settings.reminderHour == 23)
+        var negative = Subscription(name: "x", price: Money(amountMinor: 1, currency: .usDollar), startDate: d("2026-01-01"), reminderDaysBefore: -3)
+        #expect(ReminderPlanner.plan([negative], today: d("2026-11-20")).isEmpty)
+        negative.reminderDaysBefore = 0
+        #expect(!ReminderPlanner.plan([negative], today: d("2026-11-20")).isEmpty)
+    }
+
     @Test func minimalSettingsDecodeWithDefaults() throws {
         let data = try BackupCodec.decode(Data(#"{"schemaVersion": 1, "subscriptions": [], "settings": {"exchangeRates": {"USD": 2, "XXX": 3}}}"#.utf8))
         #expect(data.settings.exchangeRates == [.usDollar: 2])

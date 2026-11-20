@@ -132,28 +132,43 @@ object MoneyFormatter {
     }
 
     /**
-     * Parses what a user typed into an amount field. Accepts Persian, Arabic, and Latin
-     * digits, grouping separators, and `.`, `٫` or `/` as the decimal point.
-     * Returns null for empty or malformed input, or more decimals than the currency allows.
+     * Parses what a user typed into an amount field, in any of the app's languages.
+     *
+     * Accepts Latin, Persian and Arabic digits. `٫` and `/` are always the decimal point;
+     * `.` or `,` is the decimal point when it is the last separator and is followed by no more
+     * digits than the currency allows (so "9,99" and "9.99" are both 9.99, "1.234,56" and
+     * "1,234.56" both 1234.56). Every other separator must group digits in threes.
+     * Returns null for anything else. Same algorithm as iOS, checked by shared vectors.
      */
     fun parse(input: String, currency: CurrencyCode): Long? {
-        val cleaned = StringBuilder()
-        for (c in Digits.latinize(input)) {
-            when (c) {
-                in '0'..'9' -> cleaned.append(c)
-                '.', '٫', '/' -> cleaned.append('.')
-                ',', '٬', '،', ' ', ' ', ' ', '\'' -> Unit
-                else -> return null
+        val text = Digits.latinize(input).trim(' ')
+        val grouping = setOf('.', ',', '\u066C', '\u060C', ' ', '\u00A0', '\u202F', '\'')
+        val alwaysDecimal = setOf('\u066B', '/')
+        if (text.isEmpty() || !text.all { it in '0'..'9' || it in grouping || it in alwaysDecimal }) return null
+
+        val explicit = text.indices.filter { text[it] in alwaysDecimal }
+        if (explicit.size > 1) return null
+        var decimalIndex: Int? = explicit.firstOrNull()
+        if (decimalIndex == null && currency.fractionDigits > 0) {
+            val index = text.indexOfLast { it == '.' || it == ',' }
+            if (index >= 0) {
+                val trailing = text.substring(index + 1)
+                if (trailing.all { it in '0'..'9' } && trailing.length <= currency.fractionDigits) decimalIndex = index
             }
         }
-        if (cleaned.isEmpty()) return null
-        val parts = cleaned.split('.')
-        if (parts.size > 2) return null
-        val wholeText = parts[0].ifEmpty { "0" }
-        val fractionText = if (parts.size == 2) parts[1] else ""
-        if (fractionText.length > currency.fractionDigits) return null
+
+        val wholeChars = decimalIndex?.let { text.substring(0, it) } ?: text
+        val fractionChars = decimalIndex?.let { text.substring(it + 1) } ?: ""
+        if (!fractionChars.all { it in '0'..'9' } || fractionChars.length > currency.fractionDigits) return null
+        if (wholeChars.isEmpty() && fractionChars.isEmpty()) return null
+
+        // Digits between grouping separators: 1-3 first, then exactly 3.
+        val groups = wholeChars.split(*grouping.toCharArray())
+        if (groups.size > 1 && (groups[0].length !in 1..3 || groups.drop(1).any { it.length != 3 })) return null
+        val wholeText = groups.joinToString("").ifEmpty { "0" }
+        if (!wholeText.all { it in '0'..'9' }) return null
         val whole = wholeText.toLongOrNull() ?: return null
-        val fraction = fractionText.padEnd(currency.fractionDigits, '0').ifEmpty { "0" }.toLong()
+        val fraction = fractionChars.padEnd(currency.fractionDigits, '0').ifEmpty { "0" }.toLong()
         val scaled = try {
             Math.multiplyExact(whole, currency.minorUnitsPerMajor)
         } catch (_: ArithmeticException) {

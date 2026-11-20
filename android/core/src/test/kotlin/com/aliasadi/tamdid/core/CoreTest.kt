@@ -103,7 +103,7 @@ class MoneyParsingTest {
 
     @Test
     fun rejectsNonsense() {
-        for (input in listOf("", "abc", "9.999", "1.2.3", "-5", "99999999999999999999")) {
+        for (input in listOf("", "abc", "1.2.3", "-5", "99999999999999999999")) {
             assertNull(input, MoneyFormatter.parse(input, CurrencyCode.UsDollar))
         }
         assertNull(MoneyFormatter.parse("12.5", CurrencyCode.Toman))
@@ -291,6 +291,16 @@ class StorageTest {
         assertThrows(StorageException.UnreadableBackup::class.java) {
             BackupCodec.decode("""{"schemaVersion": 1, "subscriptions": [{"name": 5}], "settings": {}}""")
         }
+    }
+
+    @Test
+    fun corruptValuesCannotHangOrCrashTheApp() {
+        val zeroInterval = """{"schemaVersion": 1, "settings": {}, "subscriptions": [{"id": "x", "name": "x",
+            "price": {"amountMinor": 1, "currency": "USD"}, "cycle": {"unit": "day", "interval": 0}, "startDate": "2026-01-01"}]}"""
+        assertThrows(StorageException.UnreadableBackup::class.java) { BackupCodec.decode(zeroInterval) }
+        val negative = Subscription(name = "x", price = Money(1, CurrencyCode.UsDollar), startDate = d("2026-01-01"), reminderDaysBefore = -3)
+        assertTrue(ReminderPlanner.plan(listOf(negative), d("2026-11-20")).isEmpty())
+        assertTrue(ReminderPlanner.plan(listOf(negative.copy(reminderDaysBefore = 0)), d("2026-11-20")).isNotEmpty())
     }
 
     @Test

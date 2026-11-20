@@ -172,7 +172,7 @@ public enum ReminderPlanner {
         let end = today.adding(days: horizonDays)
         var result: [PlannedReminder] = []
         for subscription in subscriptions where subscription.isActive {
-            guard let daysBefore = subscription.reminderDaysBefore else { continue }
+            guard let daysBefore = subscription.reminderDaysBefore, daysBefore >= 0 else { continue }
             for charge in subscription.charges(from: today, to: end.adding(days: daysBefore)) {
                 let fire = charge.adding(days: -daysBefore)
                 guard fire >= today, fire <= end else { continue }

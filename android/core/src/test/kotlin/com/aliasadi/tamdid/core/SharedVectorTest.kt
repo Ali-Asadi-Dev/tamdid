@@ -131,4 +131,12 @@ class SharedVectorTest {
         assertEquals(6, DateText.defaultFirstWeekday(CalendarSystem.Gregorian, AppLanguage.Arabic))
         assertEquals(120000L, MoneyFormatter.parse("١٢٠٬٠٠٠", CurrencyCode.Toman))
     }
+
+    @Test
+    fun parsingTypedPrices() {
+        for (case in vectors["parse"]!!.jsonArray.map { it.jsonObject }) {
+            val expected = case["expected"]?.takeUnless { it is JsonNull }?.jsonPrimitive?.long
+            assertEquals(case.toString(), expected, MoneyFormatter.parse(case.str("input")!!, CurrencyCode.fromCode(case.str("currency")!!)!!))
+        }
+    }
 }

@@ -115,27 +115,44 @@ public enum MoneyFormatter {
         return Digits.localize(result, language: language)
     }
 
-    /// Parses what a user typed into an amount field. Accepts Persian, Arabic, and Latin
-    /// digits, grouping separators, and `.`, `٫` or `/` as the decimal point.
-    /// Returns `nil` for empty or malformed input, or more decimals than the currency allows.
+    /// Parses what a user typed into an amount field, in any of the app's languages.
+    ///
+    /// Accepts Latin, Persian and Arabic digits. `٫` and `/` are always the decimal point;
+    /// `.` or `,` is the decimal point when it is the last separator and is followed by no more
+    /// digits than the currency allows (so "9,99" and "9.99" are both 9.99, "1.234,56" and
+    /// "1,234.56" both 1234.56). Every other separator must group digits in threes.
+    /// Returns `nil` for anything else.
     public static func parse(_ input: String, currency: CurrencyCode) -> Int64? {
-        let latin = Digits.latinize(input)
-        var cleaned = ""
-        for character in latin {
-            switch character {
-            case "0"..."9": cleaned.append(character)
-            case ".", "\u{066B}", "/": cleaned.append(".")
-            case ",", "\u{066C}", "\u{060C}", " ", "\u{00A0}", "\u{202F}", "'": continue
-            default: return nil
-            }
+        let text = Array(Digits.latinize(input).trimmingCharacters(in: .whitespaces))
+        let grouping: Set<Character> = [".", ",", "\u{066C}", "\u{060C}", " ", "\u{00A0}", "\u{202F}", "'"]
+        let alwaysDecimal: Set<Character> = ["\u{066B}", "/"]
+        guard !text.isEmpty, text.allSatisfy({ $0.isASCII && $0.isNumber || grouping.contains($0) || alwaysDecimal.contains($0) }) else {
+            return nil
         }
-        let parts = cleaned.split(separator: ".", omittingEmptySubsequences: false)
-        guard !cleaned.isEmpty, parts.count <= 2 else { return nil }
-        let wholeText = parts[0].isEmpty ? "0" : String(parts[0])
-        let fractionText = parts.count == 2 ? String(parts[1]) : ""
-        guard fractionText.count <= currency.fractionDigits,
-              let whole = Int64(wholeText) else { return nil }
-        let paddedFraction = fractionText + String(repeating: "0", count: currency.fractionDigits - fractionText.count)
+
+        var decimalIndex: Int?
+        let explicit = text.indices.filter { alwaysDecimal.contains(text[$0]) }
+        if explicit.count > 1 { return nil }
+        if let index = explicit.first {
+            decimalIndex = index
+        } else if let index = text.lastIndex(where: { $0 == "." || $0 == "," }), currency.fractionDigits > 0 {
+            let trailing = text[(index + 1)...]
+            if trailing.allSatisfy(\.isNumber), trailing.count <= currency.fractionDigits { decimalIndex = index }
+        }
+
+        let wholeChars = decimalIndex.map { Array(text[..<$0]) } ?? text
+        let fractionChars = decimalIndex.map { Array(text[($0 + 1)...]) } ?? []
+        guard fractionChars.allSatisfy(\.isNumber), fractionChars.count <= currency.fractionDigits else { return nil }
+        guard !wholeChars.isEmpty || !fractionChars.isEmpty else { return nil }
+
+        // Digits between grouping separators: 1-3 first, then exactly 3.
+        let groups = wholeChars.split(omittingEmptySubsequences: false, whereSeparator: { grouping.contains($0) })
+        if groups.count > 1 {
+            guard (1...3).contains(groups[0].count), groups.dropFirst().allSatisfy({ $0.count == 3 }) else { return nil }
+        }
+        let wholeText = groups.joined().isEmpty ? "0" : String(groups.joined())
+        guard wholeText.allSatisfy(\.isNumber), let whole = Int64(wholeText) else { return nil }
+        let paddedFraction = String(fractionChars) + String(repeating: "0", count: currency.fractionDigits - fractionChars.count)
         let fraction = paddedFraction.isEmpty ? 0 : (Int64(paddedFraction) ?? 0)
         let (scaled, overflow) = whole.multipliedReportingOverflow(by: currency.minorUnitsPerMajor)
         guard !overflow else { return nil }

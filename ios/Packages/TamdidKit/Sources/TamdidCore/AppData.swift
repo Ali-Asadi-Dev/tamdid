@@ -54,7 +54,8 @@ public struct AppSettings: Hashable, Codable, Sendable {
         primaryCurrency = (try? c.decode(CurrencyCode.self, forKey: .primaryCurrency)) ?? base.primaryCurrency
         calendar = (try? c.decode(CalendarSystem.self, forKey: .calendar)) ?? base.calendar
         defaultReminderDays = try c.decodeIfPresent(Int.self, forKey: .defaultReminderDays)
-        reminderHour = try c.decodeIfPresent(Int.self, forKey: .reminderHour) ?? base.reminderHour
+        // Clamped: a bad value from a backup must not break notification scheduling.
+        reminderHour = min(max(try c.decodeIfPresent(Int.self, forKey: .reminderHour) ?? base.reminderHour, 0), 23)
         theme = (try? c.decode(ThemePreference.self, forKey: .theme)) ?? base.theme
         // Stored as a plain string-keyed object so the JSON is readable and Android-compatible.
         let rawRates = try c.decodeIfPresent([String: Double].self, forKey: .exchangeRates) ?? [:]

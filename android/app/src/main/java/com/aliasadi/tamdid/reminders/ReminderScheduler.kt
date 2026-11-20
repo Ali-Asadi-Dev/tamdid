@@ -52,7 +52,8 @@ class ReminderScheduler(private val context: Context, private val clock: Clock) 
 
         for (id in previous - current) alarmManager.cancel(pendingIntent(id, null))
         for (reminder in plan) {
-            val fireAt = reminder.fireDate.atTime(data.settings.reminderHour, 0).atZone(zone).toInstant().toEpochMilli()
+            // Clamped: a bad value from an imported backup must not crash scheduling.
+            val fireAt = reminder.fireDate.atTime(data.settings.reminderHour.coerceIn(0, 23), 0).atZone(zone).toInstant().toEpochMilli()
             if (fireAt < System.currentTimeMillis()) continue
             val intent = Intent(context, ReminderReceiver::class.java)
                 .putExtra(EXTRA_ID, reminder.id)

@@ -14,6 +14,16 @@ public struct BillingCycle: Hashable, Codable, Sendable {
         self.interval = max(1, interval)
     }
 
+    /// Rejects intervals below 1 from backups: they would make every date the same and never end.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        unit = try c.decode(CycleUnit.self, forKey: .unit)
+        interval = try c.decodeIfPresent(Int.self, forKey: .interval) ?? 1
+        guard interval >= 1 else {
+            throw DecodingError.dataCorruptedError(forKey: .interval, in: c, debugDescription: "interval must be at least 1")
+        }
+    }
+
     public static let weekly = BillingCycle(unit: .week)
     public static let monthly = BillingCycle(unit: .month)
     public static let quarterly = BillingCycle(unit: .month, interval: 3)
