@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="unit_day">
+        <item quantity="one">روز</item>
+        <item quantity="other">روز</item>
+    </plurals>
+    <plurals name="unit_week">
+        <item quantity="one">هفته</item>
+        <item quantity="other">هفته</item>
+    </plurals>
+    <plurals name="unit_month">
+        <item quantity="one">ماه</item>
+        <item quantity="other">ماه</item>
+    </plurals>
+    <plurals name="unit_year">
+        <item quantity="one">سال</item>
+        <item quantity="other">سال</item>
+    </plurals>
+    <plurals name="reminder_days_before">
+        <item quantity="one">%1$d روز قبل</item>
+        <item quantity="other">%1$d روز قبل</item>
+    </plurals>
+    <plurals name="home_active_count">
+        <item quantity="one">%1$d اشتراک فعال</item>
+        <item quantity="other">%1$d اشتراک فعال</item>
+    </plurals>
+    <plurals name="insights_overlap_title">
+        <item quantity="one">برای %1$d سرویس در دسته‌ی «%2$s» پول می‌دهی</item>
+        <item quantity="other">برای %1$d سرویس در دسته‌ی «%2$s» پول می‌دهی</item>
+    </plurals>
+    <plurals name="settings_import_confirm_body">
+        <item quantity="one">نسخه‌ی پشتیبان جایگزین هر %1$d اشتراک و تنظیماتت می‌شود.</item>
+        <item quantity="other">نسخه‌ی پشتیبان جایگزین هر %1$d اشتراک و تنظیماتت می‌شود.</item>
+    </plurals>
+    <plurals name="relative_in_days">
+        <item quantity="one">%1$d روز دیگر</item>
+        <item quantity="other">%1$d روز دیگر</item>
+    </plurals>
+</resources>
