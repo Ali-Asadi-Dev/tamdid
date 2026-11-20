@@ -29,9 +29,9 @@ extension AppModel {
         if let index = arguments.firstIndex(of: "-sample-data"), index + 1 < arguments.count {
             let language = AppLanguage(code: arguments[index + 1])
             let today = SampleData.today
-            return AppModel(store: nil, catalog: catalog, reminders: NoReminders(),
-                            initialData: arguments.contains("-empty") ? SampleData.empty(language) : SampleData.data(language),
-                            clock: { today })
+            var data = arguments.contains("-empty") ? SampleData.empty(language) : SampleData.data(language)
+            if arguments.contains("-dark") { data.settings.theme = .dark }
+            return AppModel(store: nil, catalog: catalog, reminders: NoReminders(), initialData: data, clock: { today })
         }
         let store = try? FileStore.applicationSupport()
         return AppModel(store: store, catalog: catalog, reminders: NotificationReminderScheduler())

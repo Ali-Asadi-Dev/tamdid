@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    permissions:
+      contents: write # to publish screenshots to the ci-screenshots branch
     defaults:
       run:
         working-directory: ios
@@ -43,6 +45,28 @@ jobs:
         run: |
           mkdir -p build/screenshots
           xcrun xcresulttool export attachments --path build/Tamdid.xcresult --output-path build/screenshots || true
+      - name: Publish screenshots to the ci-screenshots branch
+        if: github.event_name == 'push' && success()
+        working-directory: ios/build/screenshots
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          def walk(node):
+              if isinstance(node, dict):
+                  if "exportedFileName" in node and "suggestedHumanReadableName" in node:
+                      yield node
+                  for value in node.values(): yield from walk(value)
+              elif isinstance(node, list):
+                  for value in node: yield from walk(value)
+          for item in walk(json.load(open("manifest.json"))):
+              name = re.sub(r"_\d+_[0-9A-F-]{36}", "", item["suggestedHumanReadableName"])
+              if os.path.exists(item["exportedFileName"]):
+                  os.rename(item["exportedFileName"], "ios-" + name)
+          PY
+          git init -q && git checkout -q -b ci-screenshots
+          git add ios-*.png
+          git -c user.name="github-actions" -c user.email="github-actions@users.noreply.github.com" commit -qm "iOS screenshots for $GITHUB_SHA"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-screenshots
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4

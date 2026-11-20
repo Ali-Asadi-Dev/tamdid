@@ -15,14 +15,14 @@ Owner's goals, in their words: a "free version of paid apps", professional enoug
 | `TamdidKit` (Swift core + storage) | Done | `swift test` on Linux: 61 tests, all vectors |
 | Android `:core` | Done | JUnit: 28 tests, same vectors |
 | Android app (all v1 screens, reminders, 5 languages, dark mode) | Done | 20 JVM tests incl. Robolectric UI tests with screenshots; lint 0 warnings; debug + release APK build |
-| iOS app (all v1 screens, reminders, 5 languages) | Written, **not yet compiled by a human** | No Mac in the first session. GitHub Actions `iOS` workflow builds and tests it on macOS; check its result first |
+| iOS app (all v1 screens, reminders, 5 languages) | Done; **compiles and passes on Xcode 26.6** in CI | Not yet run by a human on a device. CI runs unit tests (Swift Testing) and XCUITest screenshot tours; screenshots are pushed to the `ci-screenshots` branch |
 | CI | `shared.yml`, `android.yml`, `ios.yml` | See Actions tab |
 | Docs | README, docs/PRODUCT, ARCHITECTURE, DESIGN | — |
 
 ## First things to do on the Mac
 
 1. `git clone https://github.com/Ali-Asadi-Dev/tamdid && cd tamdid`
-2. Check the latest **iOS** workflow run on GitHub. If it failed, the log artifact `ios-results/xcodebuild.log` has the compiler errors. The iOS UI code was written without a compiler, so expect a few small fixes.
+2. Check the latest **iOS** workflow run on GitHub (it should be green). Screenshots from the UI tests are on the `ci-screenshots` branch.
 3. `brew install xcodegen && cd ios && xcodegen generate && open Tamdid.xcodeproj`, then run on a simulator. Set your Team under Signing to run on a device.
 4. Android: open `android/` in Android Studio, or `cd android && ./gradlew :app:installDebug`.
 5. Consider committing the generated `ios/Tamdid.xcodeproj` (currently git-ignored) if you prefer opening the project without XcodeGen.

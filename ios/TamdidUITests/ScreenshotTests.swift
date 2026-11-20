@@ -8,7 +8,8 @@ final class ScreenshotTests: XCTestCase {
 
     private func launch(language: String, extra: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-sample-data", language, "-AppleLanguages", "(\(language))", "-AppleLocale", language == "fa" ? "fa_IR" : "en_US"] + extra
+        let locales = ["fa": "fa_IR", "ar": "ar_AE", "tr": "tr_TR", "de": "de_DE"]
+        app.launchArguments = ["-sample-data", language, "-AppleLanguages", "(\(language))", "-AppleLocale", locales[language] ?? "en_US"] + extra
         app.launch()
         return app
     }
@@ -40,6 +41,27 @@ final class ScreenshotTests: XCTestCase {
         let tabs = app.tabBars.buttons
         tabs.element(boundBy: 2).tap(); snap("fa-4-calendar")
         tabs.element(boundBy: 3).tap(); snap("fa-5-insights")
+    }
+
+    func testOtherLanguages() {
+        let expected = ["ar": "٩٤٫٧٦ دولار", "tr": "$94,76", "de": "94,76\u{00A0}$"]
+        for language in ["ar", "tr", "de"] {
+            let app = launch(language: language)
+            XCTAssertTrue(app.staticTexts["monthlyTotal"].waitForExistence(timeout: 5))
+            XCTAssertEqual(app.staticTexts["monthlyTotal"].label, expected[language])
+            snap("\(language)-1-home")
+            app.tabBars.buttons.element(boundBy: 2).tap()
+            snap("\(language)-4-calendar")
+            app.terminate()
+        }
+    }
+
+    func testDarkMode() {
+        let app = launch(language: "en", extra: ["-dark"])
+        XCTAssertTrue(app.staticTexts["monthlyTotal"].waitForExistence(timeout: 5))
+        snap("en-dark-1-home")
+        app.tabBars.buttons.element(boundBy: 3).tap()
+        snap("en-dark-5-insights")
     }
 
     func testAddSubscription() {
