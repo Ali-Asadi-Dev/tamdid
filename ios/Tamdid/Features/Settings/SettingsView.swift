@@ -16,7 +16,6 @@ struct SettingsView: View {
     private static let reminderOptions: [Int?] = [nil, 0, 1, 2, 3, 7]
 
     var body: some View {
-        @Bindable var model = model
         let settings = model.settings
         Form {
             Section("General") {

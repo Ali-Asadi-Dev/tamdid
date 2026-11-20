@@ -12,7 +12,13 @@ struct SubscriptionListView: View {
     @State private var filter = Filter.all
     @State private var sort = Sort.nextRenewal
 
-    private var items: [(subscription: Subscription, next: CivilDate?)] {
+    struct Row: Identifiable {
+        let subscription: Subscription
+        let next: CivilDate?
+        var id: UUID { subscription.id }
+    }
+
+    private var items: [Row] {
         let today = format.today
         let trimmed = query.trimmingCharacters(in: .whitespaces)
         let rows = model.subscriptions
@@ -25,7 +31,7 @@ struct SubscriptionListView: View {
                 }
             }
             .filter { trimmed.isEmpty || $0.name.localizedCaseInsensitiveContains(trimmed) || ($0.notes ?? "").localizedCaseInsensitiveContains(trimmed) }
-            .map { (subscription: $0, next: $0.nextRenewal(onOrAfter: today)) }
+            .map { Row(subscription: $0, next: $0.nextRenewal(onOrAfter: today)) }
         switch sort {
         case .nextRenewal:
             return rows.sorted { lhs, rhs in
@@ -66,7 +72,7 @@ struct SubscriptionListView: View {
                     if rows.isEmpty {
                         Text("No matches.").foregroundStyle(.secondary)
                     }
-                    ForEach(rows, id: \.subscription.id) { row in
+                    ForEach(rows) { row in
                         NavigationLink(value: Route.detail(row.subscription.id)) {
                             SubscriptionRow(
                                 subscription: row.subscription,
