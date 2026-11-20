@@ -6,7 +6,7 @@ It answers three questions: *What am I paying for? How much does it cost me per 
 ## Principles
 
 - **Free, no ads, no account.** Data lives on the device. Nothing leaves it unless the user exports a backup.
-- **Bilingual from day one.** English and Persian, with full right-to-left layout, Persian digits, Toman, and the Solar Hijri (Jalali) calendar.
+- **Five languages.** English, Persian, Arabic, Turkish and German, with right-to-left layouts, native digits, the toman, and the Solar Hijri (Jalali) calendar.
 - **Same product on both platforms.** One spec, one design system, one set of business rules verified by shared test vectors.
 
 ## Screens (v1)

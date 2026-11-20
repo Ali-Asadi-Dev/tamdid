@@ -140,6 +140,24 @@ class UiTest {
     }
 
     @Test
+    fun edgeCasesStayReadable() {
+        launch(SampleData.edgeCases())
+        // £999,999.99 has no exchange rate: it is reported, not silently added.
+        compose.onNodeWithText("Not included", substring = true).assertIsDisplayed()
+        screenshot("qa-1-home-unconverted")
+        compose.onNodeWithText("Plans").performClick()
+        compose.onAllNodesWithText("Paused")[0].performClick() // the filter chip; the badge comes later
+        compose.onNodeWithText("Paused plan").assertIsDisplayed()
+        compose.onNodeWithText("All").performClick()
+        compose.onNodeWithText("An extremely long subscription name", substring = true).assertExists()
+        screenshot("qa-2-list-long-names")
+        compose.onAllNodesWithText("Cancelled")[0].performClick()
+        compose.onNodeWithText("Cancelled plan").performClick()
+        compose.onNodeWithText("Resume").assertIsDisplayed()
+        screenshot("qa-3-cancelled-detail")
+    }
+
+    @Test
     fun emptyStateInvitesTheFirstSubscription() {
         launch(AppData(settings = AppSettings(hasCompletedOnboarding = true)))
         compose.onNodeWithText("No subscriptions yet").assertIsDisplayed()

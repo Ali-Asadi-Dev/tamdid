@@ -72,6 +72,29 @@ private func d(_ iso: String) -> CivilDate { CivilDate(iso: iso)! }
         #expect(!data.settings.hasCompletedOnboarding)
     }
 
+    @Test func readsBackupsWrittenByAndroid() throws {
+        // Shape produced by Android's kotlinx.serialization: lowercase UUID, `.0` doubles, defaults written out.
+        let android = """
+        {
+          "schemaVersion": 1,
+          "subscriptions": [{
+            "id": "0f8fad5b-d9cb-469f-a165-70867728950e", "name": "Netflix", "category": "streaming", "colorHex": "#E5484D",
+            "price": {"amountMinor": 1549, "currency": "USD"}, "cycle": {"unit": "month", "interval": 1},
+            "startDate": "2025-04-22", "status": "active", "reminderDaysBefore": 1, "priceHistory": [],
+            "carriedSpendMinor": 0, "carriedPaymentCount": 0, "createdAt": "2026-11-20T10:00:00Z"
+          }],
+          "settings": {"primaryCurrency": "IRT", "calendar": "jalali", "defaultReminderDays": 1, "reminderHour": 9,
+                       "theme": "dark", "exchangeRates": {"USD": 105000.0}, "hasCompletedOnboarding": true}
+        }
+        """
+        let data = try BackupCodec.decode(Data(android.utf8))
+        #expect(data.subscriptions.first?.id.uuidString == "0F8FAD5B-D9CB-469F-A165-70867728950E")
+        #expect(data.settings.exchangeRates == [.usDollar: 105_000])
+        #expect(data.settings.theme == .dark)
+        let total = Insights(subscriptions: data.subscriptions, settings: data.settings, today: d("2026-11-20")).monthlyTotal
+        #expect(total.primary == Money(amountMinor: 1_626_450, currency: .toman))
+    }
+
     @Test func csvExport() {
         let csv = BackupCodec.csv(sample.subscriptions, today: d("2026-11-20"))
         let lines = csv.components(separatedBy: "\r\n")

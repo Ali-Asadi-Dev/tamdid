@@ -51,4 +51,20 @@ object SampleData {
         settings = AppSettings.defaults(AppLanguage.Persian).copy(hasCompletedOnboarding = true)
             .withExchangeRates(mapOf(CurrencyCode.UsDollar to 105_000.0)),
     )
+
+    /** QA scenario: long names, missing exchange rates, paused and cancelled plans, many rows. */
+    fun edgeCases(): AppData {
+        val base = english()
+        val extra = (1..12).map { i ->
+            Subscription(id = "bulk$i", name = "Service number $i", category = SubscriptionCategory.entries[i % 14],
+                price = Money(100L * i, CurrencyCode.UsDollar), startDate = LocalDate.of(2026, 1, i))
+        }
+        val long = Subscription(id = "long", name = "An extremely long subscription name that will not fit on one line",
+            category = SubscriptionCategory.Productivity, price = Money(99_999_999, CurrencyCode.Pound), startDate = LocalDate.of(2026, 3, 3))
+        val paused = Subscription(id = "paused", name = "Paused plan", price = Money(500, CurrencyCode.UsDollar),
+            startDate = LocalDate.of(2026, 1, 5)).pause(LocalDate.of(2026, 6, 1))
+        val cancelled = Subscription(id = "cancelled", name = "Cancelled plan", price = Money(700, CurrencyCode.Lira),
+            startDate = LocalDate.of(2025, 1, 5)).cancel(LocalDate.of(2026, 2, 1))
+        return base.copy(subscriptions = base.subscriptions + extra + long + paused + cancelled)
+    }
 }
