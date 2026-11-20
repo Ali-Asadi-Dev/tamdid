@@ -10,9 +10,6 @@ jobs:
     runs-on: macos-latest
     permissions:
       contents: write # to publish screenshots to the ci-screenshots branch
-    defaults:
-      run:
-        working-directory: ios
     steps:
       - uses: actions/checkout@v4
       - name: Show toolchain
@@ -47,7 +44,7 @@ jobs:
           xcrun xcresulttool export attachments --path build/Tamdid.xcresult --output-path build/screenshots || true
       - name: Publish screenshots to the ci-screenshots branch
         if: github.event_name == 'push' && success()
-        working-directory: ios/build/screenshots
+        working-directory: build/screenshots
         run: |
           python3 - <<'PY'
           import json, os, re
@@ -73,5 +70,5 @@ jobs:
         with:
           name: ios-results
           path: |
-            ios/build/screenshots
-            ios/build/xcodebuild.log
+            build/screenshots
+            build/xcodebuild.log

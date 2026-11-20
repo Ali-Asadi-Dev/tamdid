@@ -4,7 +4,12 @@
 
 ## What this is
 
-Tamdid (تمدید, "renewal") is a free, open-source subscription tracker built as a portfolio project for **Ali Asadi** (Senior iOS Engineer, GitHub `Ali-Asadi-Dev`) and as a free app for the Iranian Android store **Cafe Bazaar**. Two native apps (SwiftUI + Jetpack Compose) share rules through test fixtures, not code. Five languages: en, fa, ar, tr, de.
+Tamdid (تمدید, "renewal") is a free, open-source subscription tracker built as a portfolio project for **Ali Asadi** (Senior iOS Engineer, GitHub `Ali-Asadi-Dev`) and as a free app for the Iranian Android store **Cafe Bazaar**. Two native apps share rules through test fixtures, not code. Five languages: en, fa, ar, tr, de.
+
+**Repositories (split on 2026-11-20):**
+- `Ali-Asadi-Dev/tamdid` — this repo, **iOS only** (SwiftUI app at the root, `Packages/TamdidKit`). The portfolio piece.
+- `Ali-Asadi-Dev/tamdid-android` — Android (Compose), history preserved from the monorepo.
+- `shared/test-vectors/business-rules.json`, `shared/catalog.json` (Android: `shared/catalog/catalog.json`) and `shared/i18n/translations.json` exist in **both** repos and must stay identical. Change a rule in both, run both test suites.
 
 Owner's goals, in their words: a "free version of paid apps", professional enough for a job search, with Android on Bazaar. They want every step tested "like a QA", with screenshots.
 
@@ -21,31 +26,27 @@ Owner's goals, in their words: a "free version of paid apps", professional enoug
 
 ## First things to do on the Mac
 
-1. `git clone https://github.com/Ali-Asadi-Dev/tamdid && cd tamdid`
+1. `git clone https://github.com/Ali-Asadi-Dev/tamdid && cd tamdid` (and `tamdid-android` for Android)
 2. Check the latest **iOS** workflow run on GitHub (it should be green). Screenshots from the UI tests are on the `ci-screenshots` branch.
-3. `brew install xcodegen && cd ios && xcodegen generate && open Tamdid.xcodeproj`, then run on a simulator. Set your Team under Signing to run on a device.
-4. Android: open `android/` in Android Studio, or `cd android && ./gradlew :app:installDebug`.
-5. Consider committing the generated `ios/Tamdid.xcodeproj` (currently git-ignored) if you prefer opening the project without XcodeGen.
+3. `brew install xcodegen && xcodegen generate && open Tamdid.xcodeproj`, then run on a simulator. Set your Team under Signing to run on a device.
+4. Android: open the `tamdid-android` repo in Android Studio, or `./gradlew :app:installDebug`.
+5. Consider committing the generated `Tamdid.xcodeproj` (currently git-ignored) if you prefer opening the project without XcodeGen.
 
 ## Repository map
 
 ```
-ios/Packages/TamdidKit/Sources/TamdidCore   CivilDate, Jalali, Money(+Formatter), Language, Subscription, Billing,
+Packages/TamdidKit/Sources/TamdidCore   CivilDate, Jalali, Money(+Formatter), Language, Subscription, Billing,
                                             AppData(+settings, converter), Insights(+ReminderPlanner), CalendarDisplay, Catalog
-ios/Packages/TamdidKit/Sources/TamdidData   FileStore (atomic JSON), BackupCodec (JSON, CSV)
-ios/Tamdid/App                              TamdidApp (entry, RootView, tabs, navigation), AppModel (@Observable store), SampleData
-ios/Tamdid/Features/*                       Home, Subscriptions (list/detail/edit/add flow), Calendar, Insights, Settings, Onboarding
-ios/Tamdid/Shared                           AppFormat (environment), Components, MonthGridView
-ios/Tamdid/Services/ReminderScheduler.swift UNUserNotificationCenter scheduling of the shared plan
-ios/project.yml                             XcodeGen spec (bundle id com.aliasadi.tamdid, iOS 17+)
-android/core                                Kotlin mirror of TamdidCore + TamdidData
-android/app/src/main/java/.../ui/screens    One file per screen + ViewModels.kt + EditViewModel.kt
-android/app/src/main/java/.../reminders     AlarmManager scheduler, notification + reschedule receivers
-android/app/src/test                        ViewModelTest, UiTest (Robolectric, screenshots to app/build/screenshots)
+Packages/TamdidKit/Sources/TamdidData   FileStore (atomic JSON), BackupCodec (JSON, CSV)
+Tamdid/App                              TamdidApp (entry, RootView, tabs, navigation), AppModel (@Observable store), SampleData
+Tamdid/Features/*                       Home, Subscriptions (list/detail/edit/add flow), Calendar, Insights, Settings, Onboarding
+Tamdid/Shared                           AppFormat (environment), Components, MonthGridView
+Tamdid/Services/ReminderScheduler.swift UNUserNotificationCenter scheduling of the shared plan
+project.yml                             XcodeGen spec (bundle id com.aliasadi.tamdid, iOS 17+)
 shared/test-vectors/business-rules.json     Fixtures BOTH test suites run. Add a case here first when changing a rule.
 shared/catalog.json                         31 preset services, en/fa names, no logos
 shared/i18n/translations.json               All UI text; run `python3 tools/i18n.py` after editing
-tools/i18n.py                               Generates Android values-*/strings.xml, plurals.xml and iOS Localizable.xcstrings
+tools/i18n.py                               Generates Localizable.xcstrings (the Android repo has its own copy for XML)
 ```
 
 ## Conventions
@@ -92,6 +93,6 @@ effective date earlier than the last change overwrites rather than inserts (the 
 
 1. **Verify the iOS build** (see above) and look at the UI-test screenshots in the `ios-results` artifact.
 2. iOS screenshots for the README (Android ones are in `docs/screenshots`).
-3. Bazaar release: create a release keystore (keep it backed up!), add `android/keystore.properties` (git-ignored) with `storeFile`, `storePassword`, `keyAlias`, `keyPassword`, then `./gradlew :app:assembleRelease`. Bazaar needs Persian store text and screenshots; `UiTest` already produces Persian ones.
+3. Bazaar release: create a release keystore (keep it backed up!), add `keystore.properties` (git-ignored) in the tamdid-android repo with `storeFile`, `storePassword`, `keyAlias`, `keyPassword`, then `./gradlew :app:assembleRelease`. Bazaar needs Persian store text and screenshots; `UiTest` already produces Persian ones.
 4. v2 ideas from `docs/PRODUCT.md`: widgets, app lock, iCloud/Drive sync, bundled Vazirmatn font, Shortcuts.
 5. Optional polish: Android app is ~2 MB release; the debug APK is large because of `material-icons-extended` (R8 strips it in release).

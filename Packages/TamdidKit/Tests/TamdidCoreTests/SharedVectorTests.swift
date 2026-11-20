@@ -6,7 +6,7 @@ import Testing
 enum Vectors {
     static let repoRoot: URL = {
         var url = URL(fileURLWithPath: #filePath)
-        for _ in 0..<6 { url.deleteLastPathComponent() }
+        for _ in 0..<5 { url.deleteLastPathComponent() }
         return url
     }()
 

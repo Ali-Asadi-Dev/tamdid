@@ -1,6 +1,6 @@
 # Architecture
 
-Tamdid is two native apps that share **rules, not code**. Each platform uses its own idiomatic stack; the business rules are implemented twice and pinned to the same behaviour by a shared set of test vectors.
+Tamdid is two native apps in two repositories, this one (iOS) and [tamdid-android](https://github.com/Ali-Asadi-Dev/tamdid-android). They share **rules, not code**: each platform uses its own idiomatic stack, and the business rules are implemented twice and pinned to the same behaviour by a shared set of test vectors, kept identical in both repositories under `shared/`.
 
 ```mermaid
 flowchart LR
@@ -9,11 +9,11 @@ flowchart LR
         C[catalog.json]
         T[i18n/translations.json]
     end
-    subgraph ios["ios/"]
+    subgraph ios["tamdid (this repo)"]
         K[TamdidKit<br/>TamdidCore + TamdidData<br/>Swift package]
         A[Tamdid app<br/>SwiftUI]
     end
-    subgraph android["android/"]
+    subgraph android["tamdid-android"]
         KC[:core<br/>Kotlin/JVM]
         AA[:app<br/>Jetpack Compose]
     end

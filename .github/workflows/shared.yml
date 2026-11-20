@@ -1,4 +1,4 @@
-name: Shared rules
+name: Core and translations
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Test
-        run: swift test --package-path ios/Packages/TamdidKit
+        run: swift test --package-path Packages/TamdidKit
 
   strings:
     name: Translations up to date

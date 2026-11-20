@@ -27,7 +27,7 @@ targets:
     platform: iOS
     sources:
       - path: Tamdid
-      - path: ../shared/catalog.json
+      - path: shared/catalog.json
         buildPhase: resources
     dependencies:
       - package: TamdidKit
