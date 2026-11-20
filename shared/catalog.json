@@ -1,0 +1,284 @@
+{
+  "_about": "Preset services shown in the catalog picker. Names only: no logos, prices, or brand assets.",
+  "services": [
+    {
+      "id": "netflix",
+      "name": {
+        "en": "Netflix",
+        "fa": "نتفلیکس"
+      },
+      "category": "streaming",
+      "color": "#5B4BDB"
+    },
+    {
+      "id": "youtube-premium",
+      "name": {
+        "en": "YouTube Premium",
+        "fa": "یوتیوب پریمیوم"
+      },
+      "category": "streaming",
+      "color": "#E5484D"
+    },
+    {
+      "id": "disney-plus",
+      "name": {
+        "en": "Disney+",
+        "fa": "دیزنی پلاس"
+      },
+      "category": "streaming",
+      "color": "#12A594"
+    },
+    {
+      "id": "prime-video",
+      "name": {
+        "en": "Prime Video",
+        "fa": "پرایم ویدیو"
+      },
+      "category": "streaming",
+      "color": "#F76B15"
+    },
+    {
+      "id": "apple-tv",
+      "name": {
+        "en": "Apple TV+",
+        "fa": "اپل تی‌وی پلاس"
+      },
+      "category": "streaming",
+      "color": "#3E63DD"
+    },
+    {
+      "id": "filimo",
+      "name": {
+        "en": "Filimo",
+        "fa": "فیلیمو"
+      },
+      "category": "streaming",
+      "color": "#D6409F"
+    },
+    {
+      "id": "namava",
+      "name": {
+        "en": "Namava",
+        "fa": "نماوا"
+      },
+      "category": "streaming",
+      "color": "#30A46C"
+    },
+    {
+      "id": "spotify",
+      "name": {
+        "en": "Spotify",
+        "fa": "اسپاتیفای"
+      },
+      "category": "music",
+      "color": "#8E4EC6"
+    },
+    {
+      "id": "apple-music",
+      "name": {
+        "en": "Apple Music",
+        "fa": "اپل موزیک"
+      },
+      "category": "music",
+      "color": "#0090FF"
+    },
+    {
+      "id": "icloud",
+      "name": {
+        "en": "iCloud+",
+        "fa": "آی‌کلاد پلاس"
+      },
+      "category": "cloud",
+      "color": "#AD7F58"
+    },
+    {
+      "id": "google-one",
+      "name": {
+        "en": "Google One",
+        "fa": "گوگل وان"
+      },
+      "category": "cloud",
+      "color": "#E54666"
+    },
+    {
+      "id": "dropbox",
+      "name": {
+        "en": "Dropbox",
+        "fa": "دراپ‌باکس"
+      },
+      "category": "cloud",
+      "color": "#46A758"
+    },
+    {
+      "id": "microsoft-365",
+      "name": {
+        "en": "Microsoft 365",
+        "fa": "مایکروسافت ۳۶۵"
+      },
+      "category": "productivity",
+      "color": "#5B4BDB"
+    },
+    {
+      "id": "notion",
+      "name": {
+        "en": "Notion",
+        "fa": "نوشن"
+      },
+      "category": "productivity",
+      "color": "#E5484D"
+    },
+    {
+      "id": "figma",
+      "name": {
+        "en": "Figma",
+        "fa": "فیگما"
+      },
+      "category": "productivity",
+      "color": "#12A594"
+    },
+    {
+      "id": "adobe-cc",
+      "name": {
+        "en": "Adobe Creative Cloud",
+        "fa": "ادوبی کریتیو کلاد"
+      },
+      "category": "productivity",
+      "color": "#F76B15"
+    },
+    {
+      "id": "github",
+      "name": {
+        "en": "GitHub",
+        "fa": "گیت‌هاب"
+      },
+      "category": "productivity",
+      "color": "#3E63DD"
+    },
+    {
+      "id": "linkedin-premium",
+      "name": {
+        "en": "LinkedIn Premium",
+        "fa": "لینکدین پریمیوم"
+      },
+      "category": "productivity",
+      "color": "#D6409F"
+    },
+    {
+      "id": "chatgpt",
+      "name": {
+        "en": "ChatGPT",
+        "fa": "چت‌جی‌پی‌تی"
+      },
+      "category": "ai",
+      "color": "#30A46C"
+    },
+    {
+      "id": "claude",
+      "name": {
+        "en": "Claude",
+        "fa": "کلاد"
+      },
+      "category": "ai",
+      "color": "#8E4EC6"
+    },
+    {
+      "id": "duolingo",
+      "name": {
+        "en": "Duolingo",
+        "fa": "دولینگو"
+      },
+      "category": "education",
+      "color": "#0090FF"
+    },
+    {
+      "id": "fidibo",
+      "name": {
+        "en": "Fidibo",
+        "fa": "فیدیبو"
+      },
+      "category": "reading",
+      "color": "#AD7F58"
+    },
+    {
+      "id": "taaghche",
+      "name": {
+        "en": "Taaghche",
+        "fa": "طاقچه"
+      },
+      "category": "reading",
+      "color": "#E54666"
+    },
+    {
+      "id": "xbox-game-pass",
+      "name": {
+        "en": "Xbox Game Pass",
+        "fa": "گیم پس ایکس‌باکس"
+      },
+      "category": "gaming",
+      "color": "#46A758"
+    },
+    {
+      "id": "playstation-plus",
+      "name": {
+        "en": "PlayStation Plus",
+        "fa": "پلی‌استیشن پلاس"
+      },
+      "category": "gaming",
+      "color": "#5B4BDB"
+    },
+    {
+      "id": "telegram-premium",
+      "name": {
+        "en": "Telegram Premium",
+        "fa": "تلگرام پریمیوم"
+      },
+      "category": "social",
+      "color": "#E5484D"
+    },
+    {
+      "id": "digikala-plus",
+      "name": {
+        "en": "Digikala Plus",
+        "fa": "دیجی‌کالا پلاس"
+      },
+      "category": "shopping",
+      "color": "#12A594"
+    },
+    {
+      "id": "home-internet",
+      "name": {
+        "en": "Home internet",
+        "fa": "اینترنت خانگی"
+      },
+      "category": "utilities",
+      "color": "#F76B15"
+    },
+    {
+      "id": "mobile-plan",
+      "name": {
+        "en": "Mobile plan",
+        "fa": "بسته موبایل"
+      },
+      "category": "utilities",
+      "color": "#3E63DD"
+    },
+    {
+      "id": "vpn",
+      "name": {
+        "en": "VPN",
+        "fa": "وی‌پی‌ان"
+      },
+      "category": "utilities",
+      "color": "#D6409F"
+    },
+    {
+      "id": "gym",
+      "name": {
+        "en": "Gym membership",
+        "fa": "باشگاه ورزشی"
+      },
+      "category": "health",
+      "color": "#30A46C"
+    }
+  ]
+}

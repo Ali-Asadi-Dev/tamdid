@@ -1,0 +1,497 @@
+{
+  "_about": "Shared business-rule fixtures. Both the Swift (TamdidKit) and Kotlin (android/core) test suites load this file, so the two apps cannot drift apart. Dates are ISO-8601 calendar dates.",
+  "nextRenewal": [
+    {
+      "name": "month-end clamps to February",
+      "start": "2026-01-31",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-02-01",
+      "status": "active",
+      "expected": "2026-02-28"
+    },
+    {
+      "name": "month-end recovers to 31st",
+      "start": "2026-01-31",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-03-01",
+      "status": "active",
+      "expected": "2026-03-31"
+    },
+    {
+      "name": "leap February",
+      "start": "2024-01-31",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2024-02-01",
+      "status": "active",
+      "expected": "2024-02-29"
+    },
+    {
+      "name": "renewal day itself counts",
+      "start": "2026-03-15",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-03-15",
+      "status": "active",
+      "expected": "2026-03-15"
+    },
+    {
+      "name": "before start returns first charge",
+      "start": "2026-03-15",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-01-01",
+      "status": "active",
+      "expected": "2026-03-15"
+    },
+    {
+      "name": "yearly from Feb 29 in common year",
+      "start": "2024-02-29",
+      "unit": "year",
+      "interval": 1,
+      "onOrAfter": "2025-01-01",
+      "status": "active",
+      "expected": "2025-02-28"
+    },
+    {
+      "name": "yearly from Feb 29 back in leap year",
+      "start": "2024-02-29",
+      "unit": "year",
+      "interval": 1,
+      "onOrAfter": "2028-01-01",
+      "status": "active",
+      "expected": "2028-02-29"
+    },
+    {
+      "name": "weekly",
+      "start": "2026-11-02",
+      "unit": "week",
+      "interval": 1,
+      "onOrAfter": "2026-11-20",
+      "status": "active",
+      "expected": "2026-11-23"
+    },
+    {
+      "name": "every 3 months",
+      "start": "2026-01-15",
+      "unit": "month",
+      "interval": 3,
+      "onOrAfter": "2026-05-01",
+      "status": "active",
+      "expected": "2026-07-15"
+    },
+    {
+      "name": "every 10 days",
+      "start": "2026-11-01",
+      "unit": "day",
+      "interval": 10,
+      "onOrAfter": "2026-11-20",
+      "status": "active",
+      "expected": "2026-11-21"
+    },
+    {
+      "name": "trial: first charge on trial end",
+      "start": "2026-11-01",
+      "trialEnd": "2026-11-08",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-11-02",
+      "status": "active",
+      "expected": "2026-11-08"
+    },
+    {
+      "name": "trial: renews monthly from trial end",
+      "start": "2026-11-01",
+      "trialEnd": "2026-11-08",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-11-09",
+      "status": "active",
+      "expected": "2026-12-08"
+    },
+    {
+      "name": "cancelled: still charges before cancellation",
+      "start": "2026-01-10",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-05-01",
+      "status": "cancelled",
+      "expected": "2026-05-10",
+      "endDate": "2026-06-01"
+    },
+    {
+      "name": "cancelled: nothing after cancellation",
+      "start": "2026-01-10",
+      "unit": "month",
+      "interval": 1,
+      "onOrAfter": "2026-05-20",
+      "status": "cancelled",
+      "expected": null,
+      "endDate": "2026-06-01"
+    },
+    {
+      "name": "paused: no renewal",
+      "start": "2026-01-10",
+      "unit": "month",
+      "interval": 1,
+      "status": "paused",
+      "onOrAfter": "2026-05-01",
+      "expected": null,
+      "endDate": "2026-04-15"
+    },
+    {
+      "name": "biweekly across year end",
+      "start": "2026-12-21",
+      "unit": "week",
+      "interval": 2,
+      "onOrAfter": "2026-12-22",
+      "status": "active",
+      "expected": "2027-01-04"
+    }
+  ],
+  "charges": [
+    {
+      "name": "monthly from the 31st over half a year",
+      "start": "2026-01-31",
+      "unit": "month",
+      "interval": 1,
+      "from": "2026-01-01",
+      "to": "2026-06-30",
+      "status": "active",
+      "expected": [
+        "2026-01-31",
+        "2026-02-28",
+        "2026-03-31",
+        "2026-04-30",
+        "2026-05-31",
+        "2026-06-30"
+      ]
+    },
+    {
+      "name": "weekly window",
+      "start": "2026-11-02",
+      "unit": "week",
+      "interval": 1,
+      "from": "2026-11-10",
+      "to": "2026-11-30",
+      "status": "active",
+      "expected": [
+        "2026-11-16",
+        "2026-11-23",
+        "2026-11-30"
+      ]
+    },
+    {
+      "name": "yearly over four years",
+      "start": "2020-05-05",
+      "unit": "year",
+      "interval": 1,
+      "from": "2020-01-01",
+      "to": "2023-12-31",
+      "status": "active",
+      "expected": [
+        "2020-05-05",
+        "2021-05-05",
+        "2022-05-05",
+        "2023-05-05"
+      ]
+    },
+    {
+      "name": "trial delays first charge",
+      "start": "2026-01-01",
+      "trialEnd": "2026-01-15",
+      "unit": "month",
+      "interval": 1,
+      "from": "2026-01-01",
+      "to": "2026-03-31",
+      "status": "active",
+      "expected": [
+        "2026-01-15",
+        "2026-02-15",
+        "2026-03-15"
+      ]
+    },
+    {
+      "name": "cancellation day is inclusive",
+      "start": "2026-01-10",
+      "unit": "month",
+      "interval": 1,
+      "from": "2026-01-01",
+      "to": "2026-12-31",
+      "status": "cancelled",
+      "expected": [
+        "2026-01-10",
+        "2026-02-10",
+        "2026-03-10"
+      ],
+      "endDate": "2026-03-10"
+    },
+    {
+      "name": "window before start is empty",
+      "start": "2026-06-01",
+      "unit": "month",
+      "interval": 1,
+      "from": "2026-01-01",
+      "to": "2026-05-31",
+      "status": "active",
+      "expected": []
+    }
+  ],
+  "jalali": {
+    "conversions": [
+      {
+        "gregorian": "1979-02-11",
+        "jalali": "1357-11-22"
+      },
+      {
+        "gregorian": "2000-01-01",
+        "jalali": "1378-10-11"
+      },
+      {
+        "gregorian": "2024-03-19",
+        "jalali": "1402-12-29"
+      },
+      {
+        "gregorian": "2024-03-20",
+        "jalali": "1403-01-01"
+      },
+      {
+        "gregorian": "2025-03-20",
+        "jalali": "1403-12-30"
+      },
+      {
+        "gregorian": "2025-03-21",
+        "jalali": "1404-01-01"
+      },
+      {
+        "gregorian": "2026-03-20",
+        "jalali": "1404-12-29"
+      },
+      {
+        "gregorian": "2026-03-21",
+        "jalali": "1405-01-01"
+      },
+      {
+        "gregorian": "2026-09-22",
+        "jalali": "1405-06-31"
+      },
+      {
+        "gregorian": "2026-09-23",
+        "jalali": "1405-07-01"
+      },
+      {
+        "gregorian": "2026-11-20",
+        "jalali": "1405-08-29"
+      },
+      {
+        "gregorian": "2027-03-20",
+        "jalali": "1405-12-29"
+      },
+      {
+        "gregorian": "2027-03-21",
+        "jalali": "1406-01-01"
+      },
+      {
+        "gregorian": "2030-12-31",
+        "jalali": "1409-10-10"
+      },
+      {
+        "gregorian": "1990-06-15",
+        "jalali": "1369-03-25"
+      }
+    ],
+    "leapYears": {
+      "1395": true,
+      "1399": true,
+      "1403": true,
+      "1404": false,
+      "1407": false,
+      "1408": true,
+      "1412": true
+    },
+    "monthLengths": [
+      {
+        "year": 1403,
+        "month": 1,
+        "days": 31
+      },
+      {
+        "year": 1403,
+        "month": 6,
+        "days": 31
+      },
+      {
+        "year": 1403,
+        "month": 7,
+        "days": 30
+      },
+      {
+        "year": 1403,
+        "month": 11,
+        "days": 30
+      },
+      {
+        "year": 1403,
+        "month": 12,
+        "days": 30
+      },
+      {
+        "year": 1404,
+        "month": 1,
+        "days": 31
+      },
+      {
+        "year": 1404,
+        "month": 6,
+        "days": 31
+      },
+      {
+        "year": 1404,
+        "month": 7,
+        "days": 30
+      },
+      {
+        "year": 1404,
+        "month": 11,
+        "days": 30
+      },
+      {
+        "year": 1404,
+        "month": 12,
+        "days": 29
+      }
+    ]
+  },
+  "money": [
+    {
+      "amountMinor": 120000,
+      "currency": "IRT",
+      "language": "fa",
+      "expected": "۱۲۰٬۰۰۰ تومان"
+    },
+    {
+      "amountMinor": 120000,
+      "currency": "IRT",
+      "language": "en",
+      "expected": "120,000 Toman"
+    },
+    {
+      "amountMinor": 999,
+      "currency": "USD",
+      "language": "en",
+      "expected": "$9.99"
+    },
+    {
+      "amountMinor": 999,
+      "currency": "USD",
+      "language": "fa",
+      "expected": "۹٫۹۹ دلار"
+    },
+    {
+      "amountMinor": 1250000,
+      "currency": "EUR",
+      "language": "en",
+      "expected": "€12,500.00"
+    },
+    {
+      "amountMinor": 1250000,
+      "currency": "EUR",
+      "language": "fa",
+      "expected": "۱۲٬۵۰۰٫۰۰ یورو"
+    },
+    {
+      "amountMinor": 0,
+      "currency": "USD",
+      "language": "en",
+      "expected": "$0.00"
+    },
+    {
+      "amountMinor": 5,
+      "currency": "USD",
+      "language": "en",
+      "expected": "$0.05"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "GBP",
+      "language": "en",
+      "expected": "£19.99"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "AED",
+      "language": "en",
+      "expected": "AED 19.99"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "TRY",
+      "language": "en",
+      "expected": "₺19.99"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "CAD",
+      "language": "en",
+      "expected": "CA$19.99"
+    },
+    {
+      "amountMinor": 1999,
+      "currency": "CAD",
+      "language": "fa",
+      "expected": "۱۹٫۹۹ دلار کانادا"
+    },
+    {
+      "amountMinor": 123456789,
+      "currency": "IRT",
+      "language": "en",
+      "expected": "123,456,789 Toman"
+    }
+  ],
+  "monthlyCost": [
+    {
+      "amountMinor": 999,
+      "unit": "month",
+      "interval": 1,
+      "expected": 999
+    },
+    {
+      "amountMinor": 11988,
+      "unit": "year",
+      "interval": 1,
+      "expected": 999
+    },
+    {
+      "amountMinor": 299,
+      "unit": "week",
+      "interval": 1,
+      "expected": 1300
+    },
+    {
+      "amountMinor": 100,
+      "unit": "day",
+      "interval": 1,
+      "expected": 3044
+    },
+    {
+      "amountMinor": 3000,
+      "unit": "month",
+      "interval": 3,
+      "expected": 1000
+    },
+    {
+      "amountMinor": 24000,
+      "unit": "year",
+      "interval": 2,
+      "expected": 1000
+    },
+    {
+      "amountMinor": 120000,
+      "unit": "month",
+      "interval": 1,
+      "expected": 120000
+    }
+  ]
+}
