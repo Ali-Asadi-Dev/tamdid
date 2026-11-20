@@ -96,7 +96,7 @@ private func d(_ iso: String) -> CivilDate { CivilDate(iso: iso)! }
             "id": "0f8fad5b-d9cb-469f-a165-70867728950e", "name": "Netflix", "category": "streaming", "colorHex": "#E5484D",
             "price": {"amountMinor": 1549, "currency": "USD"}, "cycle": {"unit": "month", "interval": 1},
             "startDate": "2025-04-22", "status": "active", "reminderDaysBefore": 1, "priceHistory": [],
-            "carriedSpendMinor": 0, "carriedPaymentCount": 0, "createdAt": "2026-11-20T10:00:00Z"
+            "pastCharges": [], "createdAt": "2026-11-20T10:00:00Z"
           }],
           "settings": {"primaryCurrency": "IRT", "calendar": "jalali", "defaultReminderDays": 1, "reminderHour": 9,
                        "theme": "dark", "exchangeRates": {"USD": 105000.0}, "hasCompletedOnboarding": true}

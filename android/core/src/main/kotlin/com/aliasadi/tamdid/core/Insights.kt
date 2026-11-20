@@ -6,6 +6,9 @@ data class UpcomingCharge(val subscription: Subscription, val date: LocalDate, v
     val id: String get() = "${subscription.id}-$date"
 }
 
+/** One payment on a calendar day. */
+data class DayCharge(val subscription: Subscription, val amount: Money)
+
 data class CategorySpend(val category: SubscriptionCategory, val monthlyMinor: Long, val count: Int)
 
 data class MonthSpend(val year: Int, val month: Int, val total: MoneyTotal)
@@ -52,11 +55,15 @@ class Insights(
     /** Active trials that end within [days] days. */
     fun endingTrials(days: Int): List<UpcomingCharge> = upcoming(days).filter { it.isTrialEnd }
 
-    /** Every charge between two dates, for the calendar. */
-    fun charges(from: LocalDate, to: LocalDate): Map<LocalDate, List<Subscription>> {
-        val result = mutableMapOf<LocalDate, MutableList<Subscription>>()
-        for (s in subscriptions) for (date in s.charges(from, to)) result.getOrPut(date) { mutableListOf() } += s
-        return result.mapValues { (_, list) -> list.sortedBy { it.name } }
+    /** Every payment between two dates, past and future, for the calendar. */
+    fun charges(from: LocalDate, to: LocalDate): Map<LocalDate, List<DayCharge>> {
+        val result = mutableMapOf<LocalDate, MutableList<DayCharge>>()
+        for (s in subscriptions) {
+            for (payment in s.payments(from, to)) {
+                result.getOrPut(payment.date) { mutableListOf() } += DayCharge(s, Money(payment.amountMinor, s.price.currency))
+            }
+        }
+        return result.mapValues { (_, list) -> list.sortedBy { it.subscription.name } }
     }
 
     /**
@@ -90,10 +97,10 @@ class Insights(
         if (months.isEmpty()) return emptyList()
         val buckets = months.associateWith { MoneyTotal.zero(converter.primary) }.toMutableMap()
         for (s in subscriptions) {
-            for (date in s.charges(months.first().firstDay, today)) {
-                val month = CalendarMonth.containing(date, calendar)
+            for (payment in s.payments(months.first().firstDay, today)) {
+                val month = CalendarMonth.containing(payment.date, calendar)
                 val bucket = buckets[month] ?: continue
-                buckets[month] = bucket.plus(s.priceOn(date), s.price.currency, converter)
+                buckets[month] = bucket.plus(payment.amountMinor, s.price.currency, converter)
             }
         }
         return months.map { MonthSpend(it.year, it.month, buckets.getValue(it)) }

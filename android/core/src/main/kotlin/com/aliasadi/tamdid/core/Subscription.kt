@@ -116,6 +116,13 @@ enum class SubscriptionStatus {
     @SerialName("cancelled") Cancelled,
 }
 
+/** A payment that already happened in an earlier billing series (before a pause or cancellation). */
+@Serializable
+data class Charge(
+    @Serializable(LocalDateSerializer::class) val date: LocalDate,
+    val amountMinor: Long,
+)
+
 /** A price that applied from [effectiveFrom] until the next change. */
 @Serializable
 data class PriceChange(
@@ -156,9 +163,11 @@ data class Subscription(
     val priceHistory: List<PriceChange> = emptyList(),
     /** The day the current [price] took effect; null means since the start. */
     @Serializable(LocalDateSerializer::class) val currentPriceSince: LocalDate? = null,
-    /** Spending carried over from before the last resume, so pauses are not billed. */
-    val carriedSpendMinor: Long = 0,
-    val carriedPaymentCount: Int = 0,
+    /**
+     * Payments from earlier billing series, kept when a paused or cancelled subscription
+     * is resumed so history (totals, chart, calendar) survives and the pause is not billed.
+     */
+    val pastCharges: List<Charge> = emptyList(),
     @Serializable(InstantSerializer::class) val createdAt: Instant = Instant.now().truncatedTo(ChronoUnit.SECONDS),
 ) {
     /** The first charge date: the trial end if there is one, otherwise the start date. */
@@ -232,11 +241,18 @@ data class Subscription(
         }
     }
 
-    /** Total paid up to and including [date], using the price that applied at each charge. */
-    fun totalSpent(asOf: LocalDate): Long =
-        carriedSpendMinor + charges(anchorDate, asOf).sumOf { priceOn(it) }
+    /** Every payment in [from]..[to] with its amount: earlier series first, then the current one. */
+    fun payments(from: LocalDate, to: LocalDate): List<Charge> =
+        pastCharges.filter { it.date in from..to } + charges(from, to).map { Charge(it, priceOn(it)) }
 
-    fun paymentCount(asOf: LocalDate): Int = carriedPaymentCount + charges(anchorDate, asOf).size
+    /** The earliest day anything was charged (or will be), for "all time" queries. */
+    private val firstPaymentBound: LocalDate
+        get() = minOf(pastCharges.firstOrNull()?.date ?: anchorDate, anchorDate)
+
+    /** Total paid up to and including [asOf], using the price that applied at each charge. */
+    fun totalSpent(asOf: LocalDate): Long = payments(firstPaymentBound, asOf).sumOf { it.amountMinor }
+
+    fun paymentCount(asOf: LocalDate): Int = payments(firstPaymentBound, asOf).size
 
     /** The current price spread over an average month, in minor units, rounded half up. */
     val monthlyCostMinor: Long get() = roundHalfUp(price.amountMinor * cycle.periodsPerMonth)
@@ -254,14 +270,13 @@ data class Subscription(
 
     /**
      * Resumes a paused or cancelled subscription with the next charge on [on].
-     * Spending so far is carried over so the paused period is not billed.
+     * Payments so far are kept in [pastCharges], so the paused period is not billed.
      */
     fun resume(on: LocalDate): Subscription {
         if (status == SubscriptionStatus.Active) return this
-        val lastDay = endDate ?: on.minusDays(1)
+        val lastDay = minOf(endDate ?: on.minusDays(1), on.minusDays(1))
         return copy(
-            carriedSpendMinor = totalSpent(lastDay),
-            carriedPaymentCount = paymentCount(lastDay),
+            pastCharges = payments(firstPaymentBound, lastDay),
             status = SubscriptionStatus.Active,
             endDate = null,
             trialEndDate = null,

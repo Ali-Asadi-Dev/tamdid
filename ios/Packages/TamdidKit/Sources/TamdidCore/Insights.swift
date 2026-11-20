@@ -8,6 +8,14 @@ public struct UpcomingCharge: Hashable, Sendable, Identifiable {
     public var id: String { "\(subscription.id.uuidString)-\(date.iso)" }
 }
 
+/// One payment on a calendar day.
+public struct DayCharge: Hashable, Sendable, Identifiable {
+    public var subscription: Subscription
+    public var amount: Money
+
+    public var id: UUID { subscription.id }
+}
+
 public struct CategorySpend: Hashable, Sendable, Identifiable {
     public var category: SubscriptionCategory
     public var monthlyMinor: Int64
@@ -79,15 +87,16 @@ public struct Insights: Sendable {
         upcoming(days: days).filter(\.isTrialEnd)
     }
 
-    /// Every charge between two dates, for the calendar.
-    public func charges(from: CivilDate, to: CivilDate) -> [CivilDate: [Subscription]] {
-        var result: [CivilDate: [Subscription]] = [:]
+    /// Every payment between two dates, past and future, for the calendar.
+    public func charges(from: CivilDate, to: CivilDate) -> [CivilDate: [DayCharge]] {
+        var result: [CivilDate: [DayCharge]] = [:]
         for subscription in subscriptions {
-            for date in subscription.charges(from: from, to: to) {
-                result[date, default: []].append(subscription)
+            for payment in subscription.payments(from: from, to: to) {
+                result[payment.date, default: []].append(
+                    DayCharge(subscription: subscription, amount: Money(amountMinor: payment.amountMinor, currency: subscription.price.currency)))
             }
         }
-        return result.mapValues { $0.sorted { $0.name < $1.name } }
+        return result.mapValues { $0.sorted { $0.subscription.name < $1.subscription.name } }
     }
 
     /// Monthly cost by category in the primary currency, largest first.
@@ -126,9 +135,9 @@ public struct Insights: Sendable {
         var buckets: [CalendarMonth: MoneyTotal] = [:]
         for month in months { buckets[month] = MoneyTotal(primary: .zero(converter.primary)) }
         for subscription in subscriptions {
-            for date in subscription.charges(from: from, to: to) {
-                let month = CalendarMonth.containing(date, in: calendar)
-                buckets[month]?.add(subscription.price(on: date), subscription.price.currency, using: converter)
+            for payment in subscription.payments(from: from, to: to) {
+                let month = CalendarMonth.containing(payment.date, in: calendar)
+                buckets[month]?.add(payment.amountMinor, subscription.price.currency, using: converter)
             }
         }
         return months.map { MonthSpend(year: $0.year, month: $0.month, total: buckets[$0]!) }

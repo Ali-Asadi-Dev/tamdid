@@ -93,6 +93,17 @@ public enum SubscriptionStatus: String, Codable, CaseIterable, Sendable {
     case active, paused, cancelled
 }
 
+/// A payment that already happened in an earlier billing series (before a pause or cancellation).
+public struct Charge: Hashable, Codable, Sendable {
+    public var date: CivilDate
+    public var amountMinor: Int64
+
+    public init(date: CivilDate, amountMinor: Int64) {
+        self.date = date
+        self.amountMinor = amountMinor
+    }
+}
+
 /// A price that applied from `effectiveFrom` until the next change.
 public struct PriceChange: Hashable, Codable, Sendable {
     public var effectiveFrom: CivilDate
@@ -131,9 +142,9 @@ public struct Subscription: Identifiable, Hashable, Codable, Sendable {
     public var priceHistory: [PriceChange]
     /// The day the current `price` took effect; `nil` means since the start.
     public var currentPriceSince: CivilDate?
-    /// Spending carried over from before the last resume, so pauses are not billed.
-    public var carriedSpendMinor: Int64
-    public var carriedPaymentCount: Int
+    /// Payments from earlier billing series, kept when a paused or cancelled subscription
+    /// is resumed so history (totals, chart, calendar) survives and the pause is not billed.
+    public var pastCharges: [Charge]
     public var createdAt: Date
 
     public init(
@@ -154,8 +165,7 @@ public struct Subscription: Identifiable, Hashable, Codable, Sendable {
         notes: String? = nil,
         priceHistory: [PriceChange] = [],
         currentPriceSince: CivilDate? = nil,
-        carriedSpendMinor: Int64 = 0,
-        carriedPaymentCount: Int = 0,
+        pastCharges: [Charge] = [],
         createdAt: Date = Date()
     ) {
         self.id = id
@@ -175,8 +185,7 @@ public struct Subscription: Identifiable, Hashable, Codable, Sendable {
         self.notes = notes
         self.priceHistory = priceHistory
         self.currentPriceSince = currentPriceSince
-        self.carriedSpendMinor = carriedSpendMinor
-        self.carriedPaymentCount = carriedPaymentCount
+        self.pastCharges = pastCharges
         // Whole seconds, so the value survives an ISO-8601 round trip unchanged.
         self.createdAt = Date(timeIntervalSince1970: createdAt.timeIntervalSince1970.rounded(.down))
     }
@@ -201,8 +210,7 @@ public struct Subscription: Identifiable, Hashable, Codable, Sendable {
         notes = try c.decodeIfPresent(String.self, forKey: .notes)
         priceHistory = try c.decodeIfPresent([PriceChange].self, forKey: .priceHistory) ?? []
         currentPriceSince = try c.decodeIfPresent(CivilDate.self, forKey: .currentPriceSince)
-        carriedSpendMinor = try c.decodeIfPresent(Int64.self, forKey: .carriedSpendMinor) ?? 0
-        carriedPaymentCount = try c.decodeIfPresent(Int.self, forKey: .carriedPaymentCount) ?? 0
+        pastCharges = try c.decodeIfPresent([Charge].self, forKey: .pastCharges) ?? []
         createdAt = try c.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date(timeIntervalSince1970: 0)
     }
 }

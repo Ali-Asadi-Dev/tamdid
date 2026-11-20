@@ -92,6 +92,29 @@ private func sub(
         // 3 before the pause + Jul, Aug.
         #expect(s.totalSpent(asOf: d("2026-08-31")) == 5000)
         #expect(s.paymentCount(asOf: d("2026-08-31")) == 5)
+        // History keeps its real dates, so the chart and calendar still show Jan-Mar.
+        #expect(s.payments(from: d("2026-01-01"), to: d("2026-08-31")).map(\.date)
+                == [d("2026-01-10"), d("2026-02-10"), d("2026-03-10"), d("2026-07-01"), d("2026-08-01")])
+        let months = Insights(subscriptions: [s], settings: AppSettings(), today: d("2026-08-31")).spendByMonth(count: 8, calendar: .gregorian)
+        #expect(months.map(\.total.primary.amountMinor) == [1000, 1000, 1000, 0, 0, 0, 1000, 1000])
+    }
+
+    @Test func pastPricesSurviveAResume() {
+        var s = sub("Service", 1000, start: "2026-01-10")
+        s.changePrice(to: 1500, effectiveFrom: d("2026-03-01"))
+        s.cancel(on: d("2026-04-15")) // charged Jan, Feb at 10.00; Mar, Apr at 15.00
+        s.resume(on: d("2026-06-05"))
+        #expect(s.price(on: d("2026-06-05")) == 1500)
+        #expect(s.totalSpent(asOf: d("2026-06-30")) == 1000 + 1000 + 1500 + 1500 + 1500)
+        let calendar = Insights(subscriptions: [s], settings: AppSettings(), today: d("2026-06-30")).charges(from: d("2026-02-01"), to: d("2026-02-28"))
+        #expect(calendar[d("2026-02-10")]?.first?.amount.amountMinor == 1000)
+    }
+
+    @Test func resumingTheSameDayItWasPausedDoesNotDoubleCharge() {
+        var s = sub("Service", 1000, start: "2026-01-10")
+        s.pause(on: d("2026-03-10")) // the Mar 10 charge happened
+        s.resume(on: d("2026-03-10")) // resumes on the same day: new series starts today
+        #expect(s.paymentCount(asOf: d("2026-03-10")) == 3) // Jan, Feb, and today's single charge
     }
 
     @Test func cancellingKeepsHistoryAndStopsRenewals() {

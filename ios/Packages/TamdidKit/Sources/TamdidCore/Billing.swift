@@ -73,14 +73,23 @@ extension Subscription {
         price.amountMinor = amountMinor
     }
 
+    /// Every payment in `from...to` with its amount: earlier series first, then the current one.
+    public func payments(from: CivilDate, to: CivilDate) -> [Charge] {
+        pastCharges.filter { $0.date >= from && $0.date <= to }
+            + charges(from: from, to: to).map { Charge(date: $0, amountMinor: price(on: $0)) }
+    }
+
+    /// The earliest day anything was charged (or will be), for "all time" queries.
+    var firstPaymentBound: CivilDate { min(pastCharges.first?.date ?? anchorDate, anchorDate) }
+
     /// Total paid up to and including `date`, using the price that applied at each charge.
     public func totalSpent(asOf date: CivilDate) -> Int64 {
-        carriedSpendMinor + charges(from: anchorDate, to: date).reduce(0) { $0 + price(on: $1) }
+        payments(from: firstPaymentBound, to: date).reduce(0) { $0 + $1.amountMinor }
     }
 
     /// Number of payments up to and including `date`.
     public func paymentCount(asOf date: CivilDate) -> Int {
-        carriedPaymentCount + charges(from: anchorDate, to: date).count
+        payments(from: firstPaymentBound, to: date).count
     }
 
     /// The current price spread over an average month, in minor units, rounded half up.
@@ -107,12 +116,11 @@ extension Subscription {
     }
 
     /// Resumes a paused or cancelled subscription with the next charge on `date`.
-    /// Spending so far is carried over so the paused period is not billed.
+    /// Payments so far are kept in `pastCharges`, so the paused period is not billed.
     public mutating func resume(on date: CivilDate) {
         guard status != .active else { return }
-        let lastDay = endDate ?? date.adding(days: -1)
-        carriedSpendMinor = totalSpent(asOf: lastDay)
-        carriedPaymentCount = paymentCount(asOf: lastDay)
+        let lastDay = min(endDate ?? date.adding(days: -1), date.adding(days: -1))
+        pastCharges = payments(from: firstPaymentBound, to: lastDay)
         status = .active
         endDate = nil
         trialEndDate = nil

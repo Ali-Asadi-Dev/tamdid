@@ -14,10 +14,8 @@ struct CalendarScreen: View {
         let day = selected ?? format.today
         let charges = model.insights.charges(from: current.firstDay, to: current.lastDay)
         let converter = CurrencyConverter(settings: model.settings)
-        let total = charges.reduce(into: Int64(0)) { sum, entry in
-            for sub in entry.value {
-                sum += converter.toPrimary(sub.price(on: entry.key), from: sub.price.currency) ?? 0
-            }
+        let total = charges.values.joined().reduce(into: Int64(0)) { sum, charge in
+            sum += converter.toPrimary(charge.amount.amountMinor, from: charge.amount.currency) ?? 0
         }
 
         List {
@@ -31,7 +29,7 @@ struct CalendarScreen: View {
                 MonthGridView(
                     month: current,
                     selected: day,
-                    markers: { charges[$0, default: []].map { Color(hex: $0.colorHex) } },
+                    markers: { charges[$0, default: []].map { Color(hex: $0.subscription.colorHex) } },
                     onSelect: { selected = $0 }
                 )
                 Text("Due this month: \(format.money(Money(amountMinor: total, currency: model.settings.primaryCurrency)))")
@@ -44,10 +42,9 @@ struct CalendarScreen: View {
                 if dayCharges.isEmpty {
                     Text("No renewals on this day.").foregroundStyle(.secondary)
                 }
-                ForEach(dayCharges) { sub in
-                    NavigationLink(value: Route.detail(sub.id)) {
-                        SubscriptionRow(subscription: sub, detail: format.cycle(sub.cycle),
-                                        amount: Money(amountMinor: sub.price(on: day), currency: sub.price.currency))
+                ForEach(dayCharges) { charge in
+                    NavigationLink(value: Route.detail(charge.subscription.id)) {
+                        SubscriptionRow(subscription: charge.subscription, detail: format.cycle(charge.subscription.cycle), amount: charge.amount)
                     }
                 }
             }

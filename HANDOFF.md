@@ -59,7 +59,7 @@ tools/i18n.py                               Generates Android values-*/strings.x
 ## Decisions worth knowing
 
 - Renewal dates are computed from the anchor (`trialEnd ?? start`), never by repeated addition.
-- Cancelled/paused: `endDate` is the last day a charge can happen (inclusive). Resume carries spending into `carriedSpendMinor`/`carriedPaymentCount` and restarts the series on the resume day.
+- Cancelled/paused: `endDate` is the last day a charge can happen (inclusive). Resume moves the payments so far into `pastCharges` (date + amount) and restarts the series on the resume day; `payments(from:to:)` merges both for totals, the chart and the calendar.
 - Price history: `priceHistory` holds earlier prices with their start dates; `currentPriceSince` is when the current price started. Changing currency on edit is a correction (history cleared).
 - Monthly totals include active trials (they'll charge unless cancelled). Currencies without a user-entered rate are reported separately, never guessed.
 - Reminders: planner caps at 60 (iOS limit 64), fires at `reminderHour` (09:00). Android uses inexact alarms (no exact-alarm permission needed) plus a receiver for boot / time change / app update.
@@ -72,6 +72,21 @@ tools/i18n.py                               Generates Android values-*/strings.x
 - Maven Central redirected large files to a blocked host; `~/.gradle/init.d/maven-mirror.gradle` (container-local, not in the repo) put Google's Maven Central mirror first and pointed Robolectric at it. Not needed on a normal machine.
 - Building XcodeGen on Linux was not permitted, so the `.xcodeproj` is generated in CI / on the Mac.
 - The session could not create GitHub repos or change repo settings; the owner created `Ali-Asadi-Dev/tamdid`.
+
+## QA review log (first session)
+
+Bugs found by reading every rule line by line and fixed, each with a regression test on both platforms:
+
+1. **Decimal commas** — "9,99" was saved as 999.00 for German/Turkish users. New parser + 29 shared vectors (`parse`).
+2. **Pause/resume lost history** — earlier payments vanished from the 12-month chart and calendar. Now kept in `pastCharges`.
+3. **Same-day resume double charge** — resuming on the pause day counted that day twice. `resume` now closes the old series the day before.
+4. **Corrupt backups** — interval 0 hung iOS (infinite loop); reminder hour 27 crashed Android scheduling. Rejected / clamped.
+5. **Negative reminder days** scheduled reminders after the charge. Ignored now.
+6. **Kotlin number separators** for ar/tr/de were wrong (caught by the shared vectors when languages were added).
+7. **Android "today" frozen** at app start, so relative dates went stale past midnight.
+
+Accepted limitations: a reminder whose time already passed today is skipped (not sent late); editing a price with an
+effective date earlier than the last change overwrites rather than inserts (the UI always uses today).
 
 ## Known gaps / next steps
 

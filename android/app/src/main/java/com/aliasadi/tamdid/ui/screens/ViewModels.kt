@@ -10,6 +10,8 @@ import com.aliasadi.tamdid.core.CalendarSystem
 import com.aliasadi.tamdid.core.CategoryOverlap
 import com.aliasadi.tamdid.core.CategorySpend
 import com.aliasadi.tamdid.core.CurrencyCode
+import com.aliasadi.tamdid.core.CurrencyConverter
+import com.aliasadi.tamdid.core.DayCharge
 import com.aliasadi.tamdid.core.Insights
 import com.aliasadi.tamdid.core.Money
 import com.aliasadi.tamdid.core.MoneyTotal
@@ -200,10 +202,10 @@ data class CalendarUiState(
     val loading: Boolean = true,
     val month: CalendarMonth,
     val selected: LocalDate,
-    val charges: Map<LocalDate, List<Subscription>> = emptyMap(),
+    val charges: Map<LocalDate, List<DayCharge>> = emptyMap(),
     val monthTotal: MoneyTotal,
 ) {
-    val selectedCharges: List<Subscription> get() = charges[selected].orEmpty()
+    val selectedCharges: List<DayCharge> get() = charges[selected].orEmpty()
 }
 
 class CalendarViewModel(repository: TamdidRepository, private val clock: Clock) : ViewModel() {
@@ -214,8 +216,9 @@ class CalendarViewModel(repository: TamdidRepository, private val clock: Clock) 
         val month = chosenMonth?.takeIf { it.system == settings.calendar } ?: CalendarMonth.containing(selected, settings.calendar)
         val insights = Insights(data?.subscriptions.orEmpty(), settings, clock.today())
         val charges = insights.charges(month.firstDay, month.lastDay)
-        val total = charges.entries.fold(MoneyTotal.zero(settings.primaryCurrency)) { acc, (date, subs) ->
-            subs.fold(acc) { inner, sub -> inner.plus(sub.priceOn(date), sub.price.currency, com.aliasadi.tamdid.core.CurrencyConverter(settings)) }
+        val converter = CurrencyConverter(settings)
+        val total = charges.values.flatten().fold(MoneyTotal.zero(settings.primaryCurrency)) { acc, charge ->
+            acc.plus(charge.amount.amountMinor, charge.amount.currency, converter)
         }
         CalendarUiState(data == null, month, selected, charges, total)
     }.stateIn(

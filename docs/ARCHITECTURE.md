@@ -53,7 +53,7 @@ flowchart LR
 
 **Why our own Jalali conversion?** It is a port of the widely used `jalaali-js` algorithm, verified by round-tripping every day across 200 years on both platforms and by fixtures checked against known dates (Nowruz, 22 Bahman 1357).
 
-**Pausing without corrupting history.** Resuming a paused subscription carries the spending so far into `carriedSpendMinor` and restarts the series, so the paused months are never counted as paid.
+**Pausing without corrupting history.** Resuming a paused or cancelled subscription moves the payments so far into `pastCharges` (real dates and amounts) and restarts the series on the resume day, so the paused months are never counted as paid and the chart, calendar and totals keep the earlier payments.
 
 ## Testing
 

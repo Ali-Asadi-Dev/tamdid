@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,7 +46,8 @@ fun TamdidRoot(deps: AppDependencies) {
         AppUiState.Loading -> null
     }
     val language = currentLanguage()
-    val today = remember { deps.clock.today() }
+    // Not remembered: a screen left open past midnight picks up the new day on its next recomposition.
+    val today = deps.clock.today()
     TamdidTheme(settings?.theme ?: ThemePreference.System) {
         val format = AppFormat(language, settings?.calendar ?: com.aliasadi.tamdid.core.CalendarSystem.Gregorian, today)
         CompositionLocalProvider(LocalAppFormat provides format) {

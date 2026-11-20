@@ -49,7 +49,7 @@ fun CalendarScreen(viewModel: CalendarViewModel, contentPadding: PaddingValues, 
                     month = state.month,
                     selected = state.selected,
                     onSelect = viewModel::select,
-                    markers = { date -> state.charges[date].orEmpty().map { TamdidColors.parse(it.colorHex) } },
+                    markers = { date -> state.charges[date].orEmpty().map { TamdidColors.parse(it.subscription.colorHex) } },
                 )
                 Text(
                     stringResource(R.string.calendar_month_total, format.money(state.monthTotal.primary)),
@@ -68,13 +68,14 @@ fun CalendarScreen(viewModel: CalendarViewModel, contentPadding: PaddingValues, 
                     modifier = Modifier.padding(16.dp),
                 )
             }
-            for (sub in charges) {
+            for (charge in charges) {
+                val sub = charge.subscription
                 ListRow(
                     onClick = { onOpen(sub.id) },
                     leading = { ServiceAvatar(sub.name, sub.colorHex) },
                     title = sub.name,
                     subtitle = cycleText(sub.cycle),
-                    trailing = { Text(format.money(Money(sub.priceOn(state.selected), sub.price.currency)), style = MaterialTheme.typography.titleSmall) },
+                    trailing = { Text(format.money(charge.amount), style = MaterialTheme.typography.titleSmall) },
                 )
             }
         }

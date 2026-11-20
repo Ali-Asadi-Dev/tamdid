@@ -153,7 +153,7 @@ class ViewModelTest {
         val aban = vm.state.value.month
         assertEquals(1405 to 8, aban.year to aban.month)
         vm.select(LocalDate.of(2026, 11, 22))
-        assertEquals(listOf("طاقچه"), vm.state.value.selectedCharges.map { it.name })
+        assertEquals(listOf("طاقچه"), vm.state.value.selectedCharges.map { it.subscription.name })
         vm.showMonth(aban.plusMonths(1))
         assertEquals(9, vm.state.value.month.month)
         vm.goToToday()

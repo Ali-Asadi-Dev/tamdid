@@ -67,6 +67,21 @@ class BillingTest {
         assertEquals(d("2026-07-01"), resumed.nextRenewal(d("2026-06-20")))
         assertEquals(5000, resumed.totalSpent(d("2026-08-31")))
         assertEquals(5, resumed.paymentCount(d("2026-08-31")))
+        // History keeps its real dates, so the chart and calendar still show Jan-Mar.
+        assertEquals(listOf("2026-01-10", "2026-02-10", "2026-03-10", "2026-07-01", "2026-08-01").map(::d),
+            resumed.payments(d("2026-01-01"), d("2026-08-31")).map { it.date })
+        val months = Insights(listOf(resumed), AppSettings(), d("2026-08-31")).spendByMonth(8, CalendarSystem.Gregorian)
+        assertEquals(listOf(1000L, 1000, 1000, 0, 0, 0, 1000, 1000), months.map { it.total.primary.amountMinor })
+    }
+
+    @Test
+    fun pastPricesSurviveAResumeAndSameDayResumeDoesNotDoubleCharge() {
+        val s = sub(amount = 1000).changePrice(1500, d("2026-03-01")).cancel(d("2026-04-15")).resume(d("2026-06-05"))
+        assertEquals(1500, s.priceOn(d("2026-06-05")))
+        assertEquals(1000L + 1000 + 1500 + 1500 + 1500, s.totalSpent(d("2026-06-30")))
+        val calendar = Insights(listOf(s), AppSettings(), d("2026-06-30")).charges(d("2026-02-01"), d("2026-02-28"))
+        assertEquals(1000L, calendar[d("2026-02-10")]?.first()?.amount?.amountMinor)
+        assertEquals(3, sub(amount = 1000).pause(d("2026-03-10")).resume(d("2026-03-10")).paymentCount(d("2026-03-10")))
     }
 
     @Test
@@ -258,7 +273,7 @@ class StorageTest {
               "settings" : { "calendar" : "jalali", "exchangeRates" : { "USD" : 90000, "XXX" : 1 }, "hasCompletedOnboarding" : true,
                              "primaryCurrency" : "IRT", "reminderHour" : 9, "theme" : "system" },
               "subscriptions" : [ {
-                "carriedPaymentCount" : 0, "carriedSpendMinor" : 0, "category" : "something-new", "colorHex" : "#30A46C",
+                "pastCharges" : [ ], "category" : "something-new", "colorHex" : "#30A46C",
                 "createdAt" : "2026-11-20T14:38:40Z", "currentPriceSince" : "2026-01-01",
                 "cycle" : { "interval" : 1, "unit" : "month" },
                 "id" : "7B0D8C1E-1C9B-4E8B-9A57-1E0C9C3F4A11", "name" : "Spotify",
